@@ -237,15 +237,20 @@ def make_monthly_csv(year, month, day):
     Create the CSV files for the given year/month. If day is defined, only
     create the file for that day else all the day at midnight.
     """
+    #format the month to 2-digit string
     match_found = False
     str_month = str(month)
     if month < 10:
         str_month = "0%d" % (month)
+    #download the consensus for the year and the month provided
     consensus_path = dl_consensus(year, str_month)
     if consensus_path is None:
         return None
+    #create file csv file
     sd_path = dl_server_descriptors(year, str_month)
+    #extra info is normally not downloaded by tor
     ei_path = dl_extra_infos(year, str_month)
+    
     if sd_path is None or ei_path is None:
         print("Unable to create CSV files for %s-%s" % (year, str_month))
         return None
