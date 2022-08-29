@@ -23,10 +23,9 @@ def main():
   download_consensus()
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
-  print(fifth_line[1].split('-'))
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)    
-  
+  print(fifth_line[1].split('-'))  
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
