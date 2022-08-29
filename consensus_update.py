@@ -6,7 +6,8 @@ import linecache, os
 
 #go to /var/spool/cron
 #run crontab -e
-#add these two lines. This will delete the consensus_dump file at first minute of every hour. Then download the Tor consensus file, save it to ~/Desktop/collection folder.
+#add these two lines. This will delete the consensus_dump file at first minute of every hour. 
+#Then download the Tor consensus file, save it to ~/Desktop/collection folder.
 #01 * * * * rm /tmp/consensus_dump
 #02 * * * * cd ~/Desktop && ./consensus_update.py
 
