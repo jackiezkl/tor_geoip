@@ -1,5 +1,5 @@
 import os, sys, stem, time, linecache, pygeoip
-import geoip.database
+import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
 
