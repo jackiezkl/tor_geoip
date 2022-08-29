@@ -7,18 +7,18 @@ GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
 def download_consensus():
-  downloader = DescriptorDownloader()
-  consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
-
+  try:
+    downloader = DescriptorDownloader()
+    consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
+  except Exception:
+    print("Couldn't download consensus file, please try again laster!")
+    sys.exit(1)
+    
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
     descriptor_file.write(str(consensus))
 
 def main():
-  try:
-    download_consensus()
-  except Exception:
-    print("Couldn't download consensus file, please try again laster!")
-    sys.exit(1)
+  download_consensus()
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
