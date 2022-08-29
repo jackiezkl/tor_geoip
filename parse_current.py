@@ -23,15 +23,10 @@ def main():
     download_consensus()
     filecopy()
   except Exception:
-    try:
-      download_consensus()
-      filecopy()
-    except Exception:
-        try:
-          download_consensus()
-          filecopy()
-        except Exception:
-          pass
+    print("Couldn't download consensus file, please try again laster!")
+    sys.exit(1)
+    
+  
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
