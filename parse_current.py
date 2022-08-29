@@ -27,7 +27,7 @@ def main():
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)    
 
-  year, month, day = [fifth_line[1].split('-'))[i] for i in (0,1,2)]
+  year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
   path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
   try:
