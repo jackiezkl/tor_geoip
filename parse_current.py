@@ -7,7 +7,7 @@ GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
 def download_consensus():
-    downloader = DescriptorDownloader()
+  downloader = DescriptorDownloader()
   try:
     consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
   except Exception:
