@@ -6,6 +6,8 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
+def 
+
 def download_consensus():
   downloader = DescriptorDownloader()
   try:
@@ -21,6 +23,9 @@ def main():
   download_consensus()
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
+  print(fifth_line[0])
+  print(fifth_line[1])
+  print(fifth_line[2])
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)    
   
