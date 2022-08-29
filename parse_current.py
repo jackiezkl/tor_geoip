@@ -13,19 +13,16 @@ def download_consensus():
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
     descriptor_file.write(str(consensus))
 
-def filecopy():
-  fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
-  commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
-  os.system(commd)
-
 def main():
   try:
     download_consensus()
-    filecopy()
   except Exception:
     print("Couldn't download consensus file, please try again laster!")
     sys.exit(1)
-    
+
+  fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
+  commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
+  os.system(commd)    
   
 
 if __name__=='__main__':
