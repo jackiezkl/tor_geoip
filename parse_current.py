@@ -6,8 +6,6 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
-#def 
-
 def download_consensus():
   downloader = DescriptorDownloader()
   try:
@@ -25,7 +23,17 @@ def main():
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)    
-  print(fifth_line[1].split('-'))  
+
+  year, month, day = [fifth_line[1].split('-'))[i] for i in (0,1,2)]
+
+  path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
+  try:
+    consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+  except Exception as e:
+    print("There was an error finding the file!")
+    continue
+    
+  generate_csv(consensus, path_to_file, year, month, day)
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
