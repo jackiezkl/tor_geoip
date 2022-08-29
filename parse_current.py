@@ -34,7 +34,7 @@ def main():
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
   except Exception as e:
     print("There was an error finding the file!")
-    continue
+   # continue
     
   generate_csv(consensus, path_to_file, year, month, day)
 
