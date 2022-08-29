@@ -32,11 +32,12 @@ def main():
   path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
   try:
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+    generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
    # continue
     
-  generate_csv(consensus, path_to_file, year, month, day)
+
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
