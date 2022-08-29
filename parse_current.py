@@ -6,6 +6,9 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
+def generate_csv(consensus, path_to_file, year, month, day):
+  print(year+"."+month+"."+day)
+
 def download_consensus():
   downloader = DescriptorDownloader()
   try:
