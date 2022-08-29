@@ -44,7 +44,8 @@ if __name__=='__main__':
     sys.exit(1)
   geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
   
-  if not os.path.isdir("./data"):
+  if os.path.isdir("./data"):
+    os.system("rm -R ./data")
     os.mkdir("./data")
     os.system("chmod 777 data")
   
