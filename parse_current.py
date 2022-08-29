@@ -14,7 +14,11 @@ def download_consensus():
   try:
     consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
   except Exception:
-    print("Couldn't download consensus file, please try again later!")
+    print("Couldn't download consensus file, try again in 5 seconds!")
+    sleep(5)
+    consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
+  finally:
+    print("I tried! Maybe a later time.")
     sys.exit(1)
     
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
