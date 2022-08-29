@@ -6,7 +6,7 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
-def 
+#def 
 
 def download_consensus():
   downloader = DescriptorDownloader()
