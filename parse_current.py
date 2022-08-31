@@ -34,6 +34,7 @@ def main():
   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
   path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
+  print(path_to_file)
   try:
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
     generate_csv(consensus, path_to_file, year, month, day)
