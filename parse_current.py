@@ -33,6 +33,7 @@ def main():
   print("Reading consensus file: %s" % path_to_file)
   try:
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+    print("test")
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
