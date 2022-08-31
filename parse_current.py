@@ -32,8 +32,9 @@ def main():
   path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
   print("Reading consensus file: %s" % path_to_file)
   try:
+    print("test1")
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
-    print("test")
+    print("test2")
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
