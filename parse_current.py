@@ -34,7 +34,7 @@ def main():
   
   try:
     print("test1")
-    consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+    consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
     print("test2")
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
