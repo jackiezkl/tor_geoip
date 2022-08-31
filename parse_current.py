@@ -32,20 +32,15 @@ def main():
   path_to_file = "/home/node11/Desktop/geoip/tor_geoip/data/"+fifth_line[1]+"_"+fifth_line[2]
   print("Reading consensus file: %s" % path_to_file)
   
-  print("test1")
-  consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-  print("test2")
-  generate_csv(consensus, path_to_file, year, month, day)
-    
-  #try:
-  #  print("test1")
-  #  consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
-  #  print("test2")
-  #  generate_csv(consensus, path_to_file, year, month, day)
-  #except Exception as e:
-  #  print("There was an error finding the file!")
-   # continue
-    
+  try:
+    print("test1")
+    consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+    print("test2")
+    generate_csv(consensus, path_to_file, year, month, day)
+  except Exception as e:
+    print("There was an error finding the file!")
+    continue
+  print("done") 
 
 
 if __name__=='__main__':
