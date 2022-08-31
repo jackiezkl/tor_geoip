@@ -13,15 +13,16 @@ def geo_ip_lookup(ip_address):
     return (record.location.latitude, record.location.longitude)
 
 def generate_csv(consensus, path_to_file, year, month, day):
-  csv_fp = create_csv_file(year, month, day)
-  for desc in consensus.routers.values():
-    lon, lat = geo_ip_lookup(desc.address)
-    if lon is False and lat is False:
-      pass
+    print(consensus)
+#   csv_fp = create_csv_file(year, month, day)
+#   for desc in consensus.routers.values():
+#     lon, lat = geo_ip_lookup(desc.address)
+#     if lon is False and lat is False:
+#       pass
     
-    fp = desc.fingerprint
-    digest = desc.digest.lower()
-    sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
+#     fp = desc.fingerprint
+#     digest = desc.digest.lower()
+#     sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
 
 def download_consensus():
   downloader = DescriptorDownloader()
