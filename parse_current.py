@@ -13,7 +13,6 @@ def geo_ip_lookup(ip_address):
     return (record.location.latitude, record.location.longitude)
 
 def generate_csv(consensus, path_to_file, year, month, day):
-    print(consensus)
     for desc in consensus.routers.values():
         print(desc.address)
 #   csv_fp = create_csv_file(year, month, day)
