@@ -39,7 +39,7 @@ def main():
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
-    continue
+    pass
   print("done") 
 
 
