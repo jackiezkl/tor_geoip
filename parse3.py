@@ -16,7 +16,9 @@ def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
-    return (record.location.latitude, record.location.longitude)
+    return (record.country.iso_code, record.country.name)
+#     uncomment the following line to reset to its original function
+#     return (record.location.latitude, record.location.longitude)
 
 def dl_server_descriptors(year, month):
     """ Download server descriptors from CollecTor. """
@@ -150,7 +152,9 @@ def create_csv_file(year, month, day):
         return None
     csv = open(csv_filename, 'w+')
     print("  [+] Creating CSV file %s" % (csv_filename))
-    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude)\n')
+#       uncomment the following line to reset to its original function
+#     csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude)\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,CountryCode,Country)\n')
     return csv
 
 def client_ips_to_string(ei_dict, sep):
