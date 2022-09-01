@@ -23,6 +23,14 @@ def generate_csv(consensus, path_to_file, year, month, day):
       pass
     
     fp = desc.fingerprint
+    
+    flag = "M"
+    if stem.Flag.GUARD in desc.flags:
+      flag += "G"
+    if stem.Flag.EXIT in desc.flags:
+      flag += "E"
+    if stem.Flag.HSDIR in desc.flags:
+      flag += "H"
 #     digest = desc.digest.lower()
 #     sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
 
