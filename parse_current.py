@@ -10,16 +10,17 @@ def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
-    return (record.location.latitude, record.location.longitude)
+    return (record.country.iso_code, record.country.name)
 
 def generate_csv(consensus, path_to_file, year, month, day):
     for desc in consensus.routers.values():
-        print(desc.address)
-#   csv_fp = create_csv_file(year, month, day)
-#   for desc in consensus.routers.values():
-#     lon, lat = geo_ip_lookup(desc.address)
-#     if lon is False and lat is False:
-#       pass
+#         print(desc.address)
+  csv_fp = create_csv_file(year, month, day)
+  for desc in consensus.routers.values():
+    c_code, country = geo_ip_lookup(desc.address)
+    print(c_code,country)
+    if c_code is False and country is False:
+      pass
     
 #     fp = desc.fingerprint
 #     digest = desc.digest.lower()
