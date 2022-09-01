@@ -18,11 +18,12 @@ def generate_csv(consensus, path_to_file, year, month, day):
 #   csv_fp = create_csv_file(year, month, day)
   for desc in consensus.routers.values():
     c_code, country = geo_ip_lookup(desc.address)
-    print(c_code,country)
+#     print(c_code,country)
     if c_code is False and country is False:
       pass
     
-#     fp = desc.fingerprint
+    fp = desc.fingerprint
+    print(fp)
 #     digest = desc.digest.lower()
 #     sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
 
@@ -50,9 +51,7 @@ def main():
   print("Reading consensus file: %s" % path_to_file)
   
   try:
-    print("test1")
     consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-    print("test2")
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
