@@ -23,7 +23,6 @@ def generate_csv(consensus, path_to_file, year, month, day):
       pass
     
     fp = desc.fingerprint
-    print(fp)
 #     digest = desc.digest.lower()
 #     sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
 
@@ -56,7 +55,6 @@ def main():
   except Exception as e:
     print("There was an error finding the file!")
     pass
-  print("done") 
 
 
 if __name__=='__main__':
