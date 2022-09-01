@@ -175,6 +175,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
         fp = desc.fingerprint
         digest = desc.digest.lower()
         sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
+        print(sd_path[:-7], digest[0], digest[1], digest)
         try:
             sd = next(parse_file(sd_filename))
         except Exception as e:
