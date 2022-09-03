@@ -16,7 +16,8 @@ def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
-    return (record.country.iso_code, record.city.name)
+    state_city = record.city.name + ","+record.subdivisions.most_specific.name
+    return (record.country.iso_code, state_city)
 #     uncomment the following line to reset to its original function
 #     return (record.location.latitude, record.location.longitude)
 
