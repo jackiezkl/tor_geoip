@@ -239,7 +239,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
 #             desc.fingerprint, flag, desc.address, desc.or_port,
 #             float(sd.observed_bandwidth/1000.0/1000.0), entry_ips,
 #             dir_ips, sd.uptime, lon, lat))
-        csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+        csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
             desc.fingerprint, flag, desc.address, desc.or_port,
             float(sd.observed_bandwidth/1000.0/1000.0), entry_ips,
             dir_ips, sd.uptime, country, city, state))
