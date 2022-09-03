@@ -16,8 +16,7 @@ def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
-    state_city = record.city.name + ","+record.subdivisions.most_specific.name
-    return (record.country.iso_code, state_city)
+    return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 #     uncomment the following line to reset to its original function
 #     return (record.location.latitude, record.location.longitude)
 
@@ -155,7 +154,7 @@ def create_csv_file(year, month, day):
     print("  [+] Creating CSV file %s" % (csv_filename))
 #       uncomment the following line to reset to its original function
 #     csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude)\n')
-    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,CountryCode,Country)\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,CountryCode,City,State)\n')
     return csv
 
 def client_ips_to_string(ei_dict, sep):
@@ -173,8 +172,11 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
 
     for desc in consensus.routers.values():
         # Check for longitude and latitude. Without this, the entry is useless.
-        lon, lat = geo_ip_lookup(desc.address)
-        if lon is False and lat is False:
+#         lon, lat = geo_ip_lookup(desc.address)
+#         if lon is False and lat is False:
+#             continue
+        country, city, state = geo_ip_lookup(desc.address)
+        if country is False and city is False and state is False:
             continue
 
         fp = desc.fingerprint
@@ -233,10 +235,14 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
         if stem.Flag.HSDIR in desc.flags:
             flag += "H"
 
+#         csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+#             desc.fingerprint, flag, desc.address, desc.or_port,
+#             float(sd.observed_bandwidth/1000.0/1000.0), entry_ips,
+#             dir_ips, sd.uptime, lon, lat))
         csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
             desc.fingerprint, flag, desc.address, desc.or_port,
             float(sd.observed_bandwidth/1000.0/1000.0), entry_ips,
-            dir_ips, sd.uptime, lon, lat))
+            dir_ips, sd.uptime, country, city, state))
     csv_fp.close()
 
 def make_monthly_csv(year, month, day):
