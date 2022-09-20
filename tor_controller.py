@@ -32,6 +32,6 @@ if __name__ == '__main__':
     controller.new_circuit()
   except Exception as e:
     print("Error creating new circuit")
-  controller.drop.guards()
+  controller.drop_guards()
   print(controller.get_circuits())
   controller.close()
