@@ -28,6 +28,9 @@ if __name__ == '__main__':
     sys.exit(1)
 
   print("Tor is changing circuit...")
-  controller.new_circuit()
+  try:
+    controller.new_circuit()
+  except Exception e:
+    print("Error creating new circuit")
   print(controller.get_circuit(29))
   controller.close()
