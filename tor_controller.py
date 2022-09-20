@@ -28,5 +28,8 @@ if __name__ == '__main__':
     sys.exit(1)
 
   print("Tor is running version %s" % controller.get_version())
+  controller.get_circuits()
+  controller.new_circuit()
+  controller.get_circuits()
   controller.connect()
   controller.close()
