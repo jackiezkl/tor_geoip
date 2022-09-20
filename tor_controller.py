@@ -29,5 +29,5 @@ if __name__ == '__main__':
 
   print("Tor is changing circuit...")
   controller.new_circuit()
-  print(controller.get_circuit())
+  print(controller.get_circuit(20))
   controller.close()
