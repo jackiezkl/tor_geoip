@@ -29,7 +29,8 @@ if __name__ == '__main__':
 
   print("Tor is changing circuit...")
   try:
-    controller.new_circuit()
+    #controller.new_circuit()
+    controller.signal(Signal.NEWNYM)
   except Exception as e:
     print("Error creating new circuit")
   controller.close()
