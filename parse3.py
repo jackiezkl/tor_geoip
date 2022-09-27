@@ -347,7 +347,7 @@ if __name__ == '__main__':
         print("-> https://dev.maxmind.com/geoip/legacy/geolite")
         sys.exit(1)
     # Open GeoIP database.
-    geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
+    geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
 
     month = day = 0
     try:
