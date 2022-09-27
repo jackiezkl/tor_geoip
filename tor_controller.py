@@ -6,6 +6,8 @@ import stem.connection
 
 from stem.control import Controller
 
+#start and change to a new circuit
+
 if __name__ == '__main__':
   try:
     controller = Controller.from_port()
