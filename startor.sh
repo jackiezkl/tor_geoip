@@ -6,7 +6,7 @@ VAR2="EntryNodes {us} StrictNodes 1"
 if [[ $1 == "world" ]]
 then
     if [ "$VAR1" = "$VAR2" ]; then
-        sed '3,5 s/1/0/' /etc/tor/torrc
+        sed -i '3,5 s/1/0/' /etc/tor/torrc
         tor
     else
         echo "It's already in the World mode"
@@ -19,7 +19,7 @@ then
         tor
     else
 
-        sed '3,5 s/0/1/' /etc/tor/torrc
+        sed -i '3,5 s/0/1/' /etc/tor/torrc
         tor
     fi
 else
