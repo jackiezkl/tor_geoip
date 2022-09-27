@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VAR1=sed -n '3p' /etc/tor/torrc
+VAR1=$(sed -n '3p' /etc/tor/torrc)
 VAR2="EntryNodes {us} StrictNodes 1"
 
 if [[ $1 == "world" ]]
