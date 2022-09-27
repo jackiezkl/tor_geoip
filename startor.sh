@@ -7,5 +7,5 @@ elif [[ $1 == "us" ]]
 then
     echo "us"
 else
-    echo "Usage: sudo startor.sh world | us"
+    echo -e "Usage:\nsudo startor.sh world | us"
 fi
