@@ -72,7 +72,7 @@ if __name__=='__main__':
     print("Get the Maxmind city database here:")
     print("-> https://dev.maxmind.com/geoip/legacy/geolite")
     sys.exit(1)
-  geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
+  geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
   if not os.path.isdir("./data"):
     #os.system("rm -R ./data")
