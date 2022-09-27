@@ -12,6 +12,6 @@ sudo apt install geoipupdate
 
 create /etc/GeoIP.conf
 enter the following content
-AccountID 
-LicenseKey 
-EditionIDs GeoLite2-ASN GeoLite2-City GeoLite2-Country
+- AccountID 
+- LicenseKey 
+- EditionIDs GeoLite2-ASN GeoLite2-City GeoLite2-Country
