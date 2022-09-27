@@ -15,7 +15,7 @@ def geo_ip_lookup(ip_address):
     return (record.country.iso_code)
 
 if __name__ == '__main__':
-  geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
+  geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
   with Controller.from_port(port = 9051) as controller:
     controller.authenticate()
