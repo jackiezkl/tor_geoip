@@ -10,7 +10,7 @@ sudo add-apt-repository ppa:maxmind/ppa
 sudo apt update
 sudo apt install geoipupdate
 
-create /usr/local/etc/GeoIP.conf
+create /etc/GeoIP.conf
 enter the following content
 AccountID 
 LicenseKey 
