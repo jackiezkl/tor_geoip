@@ -183,7 +183,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
         digest = desc.digest.lower()
         sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
         print("-------------------------------")
-        print(sd_filename)
+        print("sd_filname"+sd_filename)
         try:
             sd = next(parse_file(sd_filename))
         except Exception as e:
@@ -203,6 +203,7 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
         if sd.extra_info_digest is not None:
             digest = sd.extra_info_digest.lower()
             ei_filename = "%s/%s/%s/%s" % (ei_path[:-7], digest[0], digest[1], digest)
+            print("ei_filename"+ei_filename)
             try:
                 ei = next(parse_file(ei_filename))
             except Exception as e:
