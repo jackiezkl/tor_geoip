@@ -220,12 +220,14 @@ def write_csv_data(consensus, sd_path, prev_sd_path, ei_path, prev_ei_path, year
                 if ei.entry_ips is not None and len(ei.entry_ips) != 0:
                     entry_ips = client_ips_to_string(ei.entry_ips, "|")
             except Exception as e:
+                print("entry_ips is none")
                 pass
             try:
                 # Any Directory client ips?
                 if ei.dir_v3_requests is not None and len(ei.dir_v3_requests) != 0:
                     dir_ips = client_ips_to_string(ei.dir_v3_requests, "|")
             except Exception as e:
+                print("dir_v3_requests is none")
                 pass
 
         # Get relay flags.
