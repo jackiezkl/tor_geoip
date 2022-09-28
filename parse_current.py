@@ -63,7 +63,9 @@ def main():
   print("Reading consensus file: %s" % path_to_file)
   
   try:
-    consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+#     consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+    consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
