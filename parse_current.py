@@ -55,7 +55,9 @@ def main():
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
-  os.system(commd)    
+  os.system(commd)
+  commd2 = 'chmod 777 ./data/' + fifth_line[1]+"_"+fifth_line[2]
+  os.system(commd2)
 
   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
@@ -65,7 +67,7 @@ def main():
   try:
 #     consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
-
+    print(consensus)
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
