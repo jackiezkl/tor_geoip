@@ -15,14 +15,14 @@ def geo_ip_lookup(ip_address):
 def generate_csv(consensus, path_to_file, year, month, day):
 #     for desc in consensus.routers.values():
 #         print(desc.address)
-#   csv_fp = create_csv_file(year, month, day)
+  csv_fp = create_csv_file(year, month, day)
   for desc in consensus.routers.values():
-    c_code, country = geo_ip_lookup(desc.address)
-    print(c_code,country)
-    if c_code is False and country is False:
+    country, city, state = geo_ip_lookup(desc.address)
+
+    if city is False and country is False and state is False:
       pass
     
-    fp = desc.fingerprint
+#     fp = desc.fingerprint
     
     flag = "M"
     if stem.Flag.GUARD in desc.flags:
@@ -33,6 +33,11 @@ def generate_csv(consensus, path_to_file, year, month, day):
       flag += "H"
 #     digest = desc.digest.lower()
 #     sd_filename = "%s/%s/%s/%s" % (sd_path[:-7], digest[0], digest[1], digest)
+
+    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+            desc.fingerprint, flag, desc.address, desc.or_port,
+            float(desc.observed_bandwidth/1000.0/1000.0), desc.uptime, country, city, state))
+  csv_fp.close()
 
 def download_consensus():
   downloader = DescriptorDownloader()
