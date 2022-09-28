@@ -54,7 +54,7 @@ def main():
 
   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
-  path_to_file = "/home/node11/Desktop/geoip/tor_geoip/data/"+fifth_line[1]+"_"+fifth_line[2]
+  path_to_file = "./data/"+fifth_line[1]+"_"+fifth_line[2]
   print("Reading consensus file: %s" % path_to_file)
   
   try:
