@@ -67,11 +67,6 @@ def main():
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
-  if not os.path.isfile(GEOIP_FILENAME):
-    print("%s not found. It must be in the same directory as this script." % GEOIP_FILENAME)
-    print("Get the Maxmind city database here:")
-    print("-> https://dev.maxmind.com/geoip/legacy/geolite")
-    sys.exit(1)
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
   if not os.path.isdir("./data"):
