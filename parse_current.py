@@ -56,12 +56,11 @@ def main():
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)
-  commd2 = 'chmod 777 ./data/' + fifth_line[1]+"_"+fifth_line[2]
-  os.system(commd2)
 
   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
-  path_to_file = "/home/node11/Desktop/geoip/tor_geoip/data/"+fifth_line[1]+"_"+fifth_line[2]
+#   path_to_file = "/home/node11/Desktop/geoip/tor_geoip/data/"+fifth_line[1]+"_"+fifth_line[2]
+  path_to_file = '/tmp/consensus_dump'
   print("Reading consensus file: %s" % path_to_file)
   
   try:
