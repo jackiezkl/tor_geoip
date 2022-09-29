@@ -1,3 +1,5 @@
+# This program changes the circuit each time it runs.
+
 import getpass
 import sys
 
