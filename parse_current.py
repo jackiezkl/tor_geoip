@@ -51,6 +51,7 @@ def download_consensus():
   while flag == False:
     try:
       consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
+      print("  [+] Censensus file downloaded.")
       flag = True
     except Exception:
       print("  [+] Couldn't download consensus file, trying again...")
