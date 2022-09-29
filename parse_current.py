@@ -24,7 +24,7 @@ def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
-    return (record.country.iso_code, record.country.name)
+    return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
 def generate_csv(consensus, path_to_file, year, month, day):
 #     for desc in consensus.routers.values():
