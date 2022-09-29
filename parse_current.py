@@ -26,9 +26,10 @@ def geo_ip_lookup(ip_address):
         return (False, False)
     return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
-def generate_csv(consensus, path_to_file, year, month, day):
+def generate_csv(consensus, path_to_file, year, month, day, date, time):
 #     for desc in consensus.routers.values():
 #         print(desc.address)
+  csv_fp = create_csv_file(date,time)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
 
@@ -78,8 +79,7 @@ def main():
   
 #   try:
   consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-  csv_fp = create_csv_file(fifth_line[1],fifth_line[2])
-  generate_csv(consensus, path_to_file, year, month, day)
+  generate_csv(consensus, path_to_file, year, month, day, fifth_line[1], fifth_line[2])
 #   except Exception as e:
 #     print("There was an error finding the file!")
 #     pass
