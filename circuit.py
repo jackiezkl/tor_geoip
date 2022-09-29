@@ -1,3 +1,7 @@
+# This file gets the current circuit information from tor.
+# It defaults to use COntrolPort 9051, so before running this 
+# file, make sure the tor is running in the background. 
+
 from stem import CircStatus
 from stem.control import Controller
 import pygeoip
