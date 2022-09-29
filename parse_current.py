@@ -10,9 +10,9 @@ def create_csv_file(date,time):
     # Process the consensuses that we are interested in.
     csv_filename = 'data/latest_relays-%s-%s.csv' % \
             (date,time)
-    if os.path.exists(csv_filename):
-        print("  [+] CSV %s exists, skipping!" % (csv_filename))
-        return None
+#     if os.path.exists(csv_filename):
+#         os.system('rm %s' % csv_filename)
+#         return None
     csv = open(csv_filename, 'w+')
     print("  [+] Creating CSV file %s" % (csv_filename))
 #       uncomment the following line to reset to its original function
@@ -78,8 +78,6 @@ def main():
   
   try:
     consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-#     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
-#     print(consensus)
     csv_fp = create_csv_file(fifth_line[1],fifth_line[2])
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
