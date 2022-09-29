@@ -53,7 +53,7 @@ def download_consensus():
       consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
       flag = True
     except Exception:
-      print("Couldn't download consensus file, trying again...")
+      print("  [+] Couldn't download consensus file, trying again...")
       continue
     
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
