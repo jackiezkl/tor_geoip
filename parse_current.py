@@ -6,7 +6,7 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
-#   create the csv file to put the processed consensus info
+# create the csv file to put the processed consensus info
 def create_csv_file(date,time):
     csv_filename = 'data/latest_relays-%s-%s.csv' % \
             (date,time)
@@ -15,7 +15,7 @@ def create_csv_file(date,time):
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
     return csv
 
-#   ip address lookup for the country, city and state
+# ip address lookup for the country, city and state
 def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
@@ -24,7 +24,7 @@ def geo_ip_lookup(ip_address):
 
 # process the latest consensus, save the extracted info to csv file.
 def generate_csv(consensus, path_to_file, date, time):
-  csv_fp = create_csv_file(date,time)
+  csv_fill = create_csv_file(date,time)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
 
@@ -39,13 +39,13 @@ def generate_csv(consensus, path_to_file, date, time):
     if stem.Flag.HSDIR in desc.flags:
       flag += "H"
 
-    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+    csv_fill.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
                                                    desc.fingerprint,flag,desc.address,desc.or_port,
                                                    float(desc.bandwidth/1000.0/1000.0),country,city,state))
-  csv_fp.close()
+  csv_fill.close()
 
-def download_consensus():
 # acquire the latest consensus
+def download_consensus():
   downloader = DescriptorDownloader()
   flag = False
   while flag == False:
@@ -61,12 +61,12 @@ def download_consensus():
     descriptor_file.write(str(consensus))
 
 def main():
-# download the consensus file
   download_consensus()
 
-# collect the census publishing time, copy the consensus file and rename it to the time when it started take effect
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
-  commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
+  date = fifth_line[1]
+  time = fifth_line[2]
+  commd = "cp /tmp/consensus_dump ./data/"+date+"_"+time
   os.system(commd)
 
 #   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
@@ -76,12 +76,11 @@ def main():
   consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
 
   print("  [+] Generating the relay information...")
-  generate_csv(consensus, path_to_file, fifth_line[1], fifth_line[2])
+  generate_csv(consensus, path_to_file, date, time)
   
   print("  [+] Done!")
 
 if __name__=='__main__':
-  # Make sure we have a GeoIP database (maxmind)
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
   if not os.path.isdir("./data"):
