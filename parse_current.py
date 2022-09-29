@@ -6,8 +6,8 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
-def create_csv_file(date,time):
 #   create the csv file to put the processed consensus info
+def create_csv_file(date,time):
     csv_filename = 'data/latest_relays-%s-%s.csv' % \
             (date,time)
     csv = open(csv_filename, 'w+')
@@ -15,15 +15,15 @@ def create_csv_file(date,time):
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
     return csv
 
-def geo_ip_lookup(ip_address):
 #   ip address lookup for the country, city and state
+def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
     return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
-def generate_csv(consensus, path_to_file, date, time):
 # process the latest consensus, save the extracted info to csv file.
+def generate_csv(consensus, path_to_file, date, time):
   csv_fp = create_csv_file(date,time)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
@@ -39,7 +39,9 @@ def generate_csv(consensus, path_to_file, date, time):
     if stem.Flag.HSDIR in desc.flags:
       flag += "H"
 
-    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,desc.fingerprint,flag,desc.address,desc.or_port,float(desc.bandwidth/1000.0/1000.0),country,city,state))
+    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+                                                   desc.fingerprint,flag,desc.address,desc.or_port,
+                                                   float(desc.bandwidth/1000.0/1000.0),country,city,state))
   csv_fp.close()
 
 def download_consensus():
@@ -70,10 +72,11 @@ def main():
 
   path_to_file = '/tmp/consensus_dump'
   print("  [+] Reading consensus file...")
-
   consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+
   print("  [+] Generating the relay information...")
   generate_csv(consensus, path_to_file, fifth_line[1], fifth_line[2])
+  
   print("  [+] Done!")
 
 if __name__=='__main__':
