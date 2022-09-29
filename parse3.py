@@ -1,3 +1,9 @@
+# This file was originally borrowed from https://github.com/dgoulet/tor-parser/
+# Made some change to add new information needed: country, city, and state info
+# The program pull consensus, descriptor, extra-info from tor servers, and
+# generate a csv file consists the information of nick name, fingerprint,
+# observed bandwidth, ip, plus the added information.
+
 import os, sys
 import stem
 import urllib.request
