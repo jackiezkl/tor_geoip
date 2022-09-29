@@ -1,3 +1,7 @@
+# This program pulls the current consensus, then extract information
+# to form a new csv file, which contains the nickname, fingerprint, 
+# ip, country, city, state.
+
 import os, sys, stem, time, linecache, pygeoip
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
