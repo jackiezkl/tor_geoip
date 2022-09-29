@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# This program changes the tor relay node settings, then start tor.
+# "world" option will start tor and use relays across the world (based
+#  on geoip database). "us" option will only use the relays inside US. 
+
 VAR1=$(sed -n '3p' /etc/tor/torrc)
 VAR2="EntryNodes {us} StrictNodes 1"
 
