@@ -17,7 +17,7 @@ def create_csv_file(date,time):
     print("  [+] Creating CSV file %s" % (csv_filename))
 #       uncomment the following line to reset to its original function
 #     csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude\n')
-    csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,Uptime,CountryCode,City,State\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
     return csv
 
 def geo_ip_lookup(ip_address):
@@ -50,7 +50,7 @@ def generate_csv(consensus, path_to_file, year, month, day, date, time):
 
     csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
             desc.fingerprint, flag, desc.address, desc.or_port,
-            float(desc.bandwidth/1000.0/1000.0), desc.uptime, country, city, state))
+            float(desc.bandwidth/1000.0/1000.0), country, city, state))
   csv_fp.close()
 
 def download_consensus():
