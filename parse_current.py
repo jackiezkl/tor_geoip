@@ -40,7 +40,7 @@ def generate_csv(consensus, path_to_file, year, month, day, date, time):
     if stem.Flag.HSDIR in desc.flags:
       flag += "H"
 
-    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,desc.fingerprint,flag,desc.address,desc.or_port,float(desc.bandwidth/1000.0/1000.0),country,city,state))
+    csv_fp.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,desc.fingerprint,flag,desc.address,desc.or_port,float(desc.bandwidth/1000.0/1000.0),country,city,state))
   csv_fp.close()
 
 def download_consensus():
