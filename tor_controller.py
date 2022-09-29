@@ -1,4 +1,4 @@
-# This program changes the circuit each time it runs.
+# This program changes the tor circuit each time it runs.
 
 import getpass
 import sys
