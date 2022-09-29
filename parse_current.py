@@ -45,11 +45,14 @@ def generate_csv(consensus, path_to_file, year, month, day, date, time):
 
 def download_consensus():
   downloader = DescriptorDownloader()
-  try:
-    consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
-  except Exception:
-    print("Couldn't download consensus file, please try again!")
-    sys.exit(1)
+  flag = False
+  while flag == False:
+    try:
+      consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
+      flag = True
+    except Exception:
+      print("Couldn't download consensus file, trying again...")
+      continue
     
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
     descriptor_file.write(str(consensus))
