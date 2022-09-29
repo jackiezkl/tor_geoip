@@ -22,7 +22,6 @@ then
         echo "It's already in the US mode"
         tor
     else
-
         sed -i '3,5 s/0/1/' /etc/tor/torrc
         tor
     fi
