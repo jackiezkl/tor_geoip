@@ -6,6 +6,20 @@ from stem.descriptor.remote import DescriptorDownloader
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
+def create_csv_file(date,time):
+    # Process the consensuses that we are interested in.
+    csv_filename = 'data/latest_relays-%s-%s.csv' % \
+            (date,time)
+    if os.path.exists(csv_filename):
+        print("  [+] CSV %s exists, skipping!" % (csv_filename))
+        return None
+    csv = open(csv_filename, 'w+')
+    print("  [+] Creating CSV file %s" % (csv_filename))
+#       uncomment the following line to reset to its original function
+#     csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,GuardClients,DirClients,Uptime,Longitude,Latitude\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,ObservedBW,Uptime,CountryCode,City,State\n')
+    return csv
+
 def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
@@ -15,7 +29,6 @@ def geo_ip_lookup(ip_address):
 def generate_csv(consensus, path_to_file, year, month, day):
 #     for desc in consensus.routers.values():
 #         print(desc.address)
-  csv_fp = create_csv_file(year, month, day)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
 
@@ -64,9 +77,10 @@ def main():
   print("Reading consensus file: %s" % path_to_file)
   
   try:
-#     consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-    consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
-    print(consensus)
+    consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+#     consensus = next(parse_file(path_to_file,document_handler = DocumentHandler.DOCUMENT))
+#     print(consensus)
+    csv_fp = create_csv_file(fifth_line[1],fifth_line[2])
     generate_csv(consensus, path_to_file, year, month, day)
   except Exception as e:
     print("There was an error finding the file!")
