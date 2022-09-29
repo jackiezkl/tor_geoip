@@ -7,24 +7,23 @@ GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
 def create_csv_file(date,time):
-    # Process the consensuses that we are interested in.
+#   create the csv file to put the processed consensus info
     csv_filename = 'data/latest_relays-%s-%s.csv' % \
             (date,time)
-#     if os.path.exists(csv_filename):
-#         os.system('rm %s' % csv_filename)
-#         return None
     csv = open(csv_filename, 'w+')
     print("  [+] Creating CSV file %s" % (csv_filename))
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
     return csv
 
 def geo_ip_lookup(ip_address):
+#   ip address lookup for the country, city and state
     record = geoip_reader.city(ip_address)
     if record is None:
         return (False, False)
     return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
-def generate_csv(consensus, path_to_file, year, month, day, date, time):
+def generate_csv(consensus, path_to_file, date, time):
+# process the latest consensus, save the extracted info to csv file.
   csv_fp = create_csv_file(date,time)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
@@ -44,6 +43,7 @@ def generate_csv(consensus, path_to_file, year, month, day, date, time):
   csv_fp.close()
 
 def download_consensus():
+# acquire the latest consensus
   downloader = DescriptorDownloader()
   flag = False
   while flag == False:
@@ -58,25 +58,23 @@ def download_consensus():
     descriptor_file.write(str(consensus))
 
 def main():
+# download the consensus file
   download_consensus()
 
+# collect the census publishing time, copy the consensus file and rename it to the time when it started take effect
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   commd = "cp /tmp/consensus_dump ./data/"+fifth_line[1]+"_"+fifth_line[2]
   os.system(commd)
 
-  year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
+#   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
-#   path_to_file = "/home/node11/Desktop/geoip/tor_geoip/data/"+fifth_line[1]+"_"+fifth_line[2]
   path_to_file = '/tmp/consensus_dump'
-  print("Reading consensus file: %s" % path_to_file)
-  
-#   try:
-  consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
-  generate_csv(consensus, path_to_file, year, month, day, fifth_line[1], fifth_line[2])
-#   except Exception as e:
-#     print("There was an error finding the file!")
-#     pass
+  print("  [+] Reading consensus file...")
 
+  consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+  print("  [+] Generating the relay information...")
+  generate_csv(consensus, path_to_file, fifth_line[1], fifth_line[2])
+  print("  [+] Done!")
 
 if __name__=='__main__':
   # Make sure we have a GeoIP database (maxmind)
