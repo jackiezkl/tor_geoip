@@ -1,15 +1,17 @@
 #!/usr/bin/python3
-from stem.descriptor import DocumentHandler
-from stem.descriptor.remote import DescriptorDownloader
-import linecache, os
 
-
+# This program pulls the current consensus information from tor server. Follow the steps below
+# to make the program auto run in Linux.
 #go to /var/spool/cron
 #run crontab -e
 #add these two lines. This will delete the consensus_dump file at first minute of every hour. 
 #Then download the Tor consensus file, save it to ~/Desktop/collection folder.
 #01 * * * * rm /tmp/consensus_dump
 #02 * * * * cd ~/Desktop && ./consensus_update.py
+
+from stem.descriptor import DocumentHandler
+from stem.descriptor.remote import DescriptorDownloader
+import linecache, os
 
 def download_consensus():
     downloader = DescriptorDownloader()
