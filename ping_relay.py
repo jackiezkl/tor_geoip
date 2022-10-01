@@ -16,6 +16,6 @@ with open('data/latest_relays-2022-09-29-15:00:00.csv') as latest_relays:
     if 'E' in line[2]:
       if line[6] == 'US':
         try:
-          csv.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(ping(line[3], unit='ms'))))
+          result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(ping(line[3], unit='ms'))))
         except Exception:
           continue
