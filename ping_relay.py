@@ -3,7 +3,7 @@ from ping3 import ping
 
 ping_result_filename = 'data/ping_result.csv'
 
-csv = open(ping_reuslt_filename, 'w+')
+csv = open(ping_result_filename, 'w+')
 csv.write('nickname,fingerprint,ip,latency\n')
 
 with open('data/latest_relays-2022-09-29-15:00:00.csv') as latest_relays:
