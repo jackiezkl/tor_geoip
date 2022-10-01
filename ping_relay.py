@@ -9,4 +9,4 @@ with open('data/latest_relays-2022-09-29-15:00:00.csv') as latest_relays:
     line = row
     if 'E' in line[2]:
       if line[6] == 'US':
-      print(line[0]+':'+line[3])
+        print(line[0]+':'+line[3])
