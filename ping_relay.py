@@ -1,12 +1,17 @@
 import csv
 from ping3 import ping
 
+if len(sys.argv) == 1:
+  print("Usage: python3 ping_relay.py [path to latest_relays file from parse_current.py]")
+
+path_to_file = sys.argv[2]
+
 ping_result_filename = 'data/ping_result.csv'
 
 result_fill = open(ping_result_filename, 'w+')
 result_fill.write('nickname,fingerprint,ip,latency\n')
 
-with open('data/latest_relays-2022-09-29-15:00:00.csv') as latest_relays:
+with open(path_to_file) as latest_relays:
   heading = next(latest_relays)
   
   relay_reader = csv.reader(latest_relays)
