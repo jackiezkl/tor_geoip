@@ -16,7 +16,7 @@ with open(path_to_file) as latest_relays:
   heading = next(latest_relays)
   
   relay_reader = csv.reader(latest_relays)
-  
+  print("[+] Start pinging, hold on...")
   for row in relay_reader:
     line = row
     if 'E' in line[2]:
