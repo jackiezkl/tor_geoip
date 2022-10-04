@@ -19,10 +19,12 @@ with open(path_to_file) as latest_relays:
   print("[+] Start pinging, hold on...")
   for row in relay_reader:
     line = row
-    if 'E' in line[2]:
+    if 'G' in line[2]:
       if line[6] == 'US':
         latency = ping(line[3],unit='ms')
-        if latency < 100:
+        if latency is None:
+          continue
+        elif latency < 100:
           try:
             result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
           except Exception:
