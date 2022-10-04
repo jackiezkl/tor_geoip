@@ -2,7 +2,7 @@ import csv,sys
 from ping3 import ping
 
 
-def ping(path_to_file, which_node):
+def node_ping(path_to_file, which_node):
   if which_node == 'guard':
     node = 'G'
     ping_result_filename = 'data/ping_guard_result.csv'
@@ -25,10 +25,10 @@ def ping(path_to_file, which_node):
       line = row
       if node in line[2]:
         if line[6] == 'US':
-          latency = ping(line[3])
+          latency = ping(line[3], unit='ms')
           if latency is None:
             continue
-          elif latency*100 < 100:
+          elif latency < 100:
             try:
               result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
             except Exception:
@@ -45,5 +45,5 @@ if __name__ == '__main__':
   
   path_to_file = sys.argv[1]
   which_node = sys.argv[2]
-  ping(path_to_file, which_node)
+  node_ping(path_to_file, which_node)
 
