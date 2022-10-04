@@ -40,7 +40,7 @@ def ping(path_to_file, which_node):
 
 if __name__ == '__main__':
   if len(sys.argv) < 3:
-    print("Usage: python3 ping_guard.py [path to latest_relays file from parse_current.py] guard | middle | exit")
+    print("\nUsage: python3 ping_guard.py [path to latest_relays file from parse_current.py] guard | middle | exit")
     sys.exit(1)
   
   path_to_file = sys.argv[1]
