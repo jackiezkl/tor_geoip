@@ -1,4 +1,4 @@
-import csv
+import csv,sys
 from ping3 import ping
 
 if len(sys.argv) == 1:
