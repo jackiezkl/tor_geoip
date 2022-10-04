@@ -39,7 +39,7 @@ def ping(path_to_file, which_node):
   print("Done! Please check file ./data/ping_guard_result.csv")
 
 if __name__ == '__main__':
-  if len(sys.argv) == 1:
+  if len(sys.argv) < 3:
     print("Usage: python3 ping_guard.py [path to latest_relays file from parse_current.py] guard | middle | exit")
     sys.exit(1)
   
