@@ -25,10 +25,10 @@ def ping(path_to_file, which_node):
       line = row
       if node in line[2]:
         if line[6] == 'US':
-          latency = ping(line[3], unit='ms')
+          latency = ping(line[3])
           if latency is None:
             continue
-          elif latency < 100:
+          elif latency*100 < 100:
             try:
               result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
             except Exception:
