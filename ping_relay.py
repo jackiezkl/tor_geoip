@@ -29,3 +29,7 @@ with open(path_to_file) as latest_relays:
             result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
           except Exception:
             continue
+
+latest_relays.close()
+result_fill.close()
+print("Done! Please check file ./data/ping_result.csv")
