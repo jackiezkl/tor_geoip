@@ -25,7 +25,7 @@ def ping(path_to_file, which_node):
       line = row
       if node in line[2]:
         if line[6] == 'US':
-          latency = ping(line[3],unit='ms')
+          latency = ping(line[3], unit='ms')
           if latency is None:
             continue
           elif latency < 100:
