@@ -2,7 +2,7 @@ import csv,sys
 from ping3 import ping
 
 if len(sys.argv) == 1:
-  print("Usage: python3 ping_relay.py [path to latest_relays file from parse_current.py]")
+  print("Usage: python3 ping_guard.py [path to latest_relays file from parse_current.py]")
   sys.exit(1)
 
 path_to_file = sys.argv[1]
@@ -32,4 +32,4 @@ with open(path_to_file) as latest_relays:
 
 latest_relays.close()
 result_fill.close()
-print("Done! Please check file ./data/ping_result.csv")
+print("Done! Please check file ./data/ping_guard_result.csv")
