@@ -36,7 +36,7 @@ def node_ping(path_to_file, which_node):
 
   latest_relays.close()
   result_fill.close()
-  print("Done! Please check file ./data/ping_guard_result.csv")
+  print("Done! Please check file ./data/ping_%s_result.csv" % which_node)
 
 if __name__ == '__main__':
   if len(sys.argv) < 3:
