@@ -5,7 +5,7 @@ if len(sys.argv) == 1:
   print("Usage: python3 ping_relay.py [path to latest_relays file from parse_current.py]")
   sys.exit(1)
 
-path_to_file = sys.argv[2]
+path_to_file = sys.argv[1]
 
 ping_result_filename = 'data/ping_result.csv'
 
