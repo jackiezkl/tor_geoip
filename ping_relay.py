@@ -1,8 +1,11 @@
 import csv,sys
 from ping3 import ping
 
-if len(sys.argv) == 1:
-  print("Usage: python3 ping_relay.py [path to latest_relays file from parse_current.py]")
+try:
+  if len(sys.argv) == 1:
+    print("Usage: python3 ping_relay.py [path to latest_relays file from parse_current.py]")
+except Exception:
+  sys.exit(1)
 
 path_to_file = sys.argv[2]
 
