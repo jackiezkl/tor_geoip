@@ -34,9 +34,9 @@ def ping(path_to_file, which_node):
             except Exception:
               continue
 
-latest_relays.close()
-result_fill.close()
-print("Done! Please check file ./data/ping_guard_result.csv")
+  latest_relays.close()
+  result_fill.close()
+  print("Done! Please check file ./data/ping_guard_result.csv")
 
 if __name__ == '__main__':
   if len(sys.argv) == 1:
