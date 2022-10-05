@@ -71,8 +71,8 @@ def main():
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
   date_of_consensus = fifth_line[1]
-  time_of_consensus = fifth_line[2]
-  commd = "cp /tmp/consensus_dump ./data/"+date_of_consensus+"-"+time_of_consensus+"consensus"
+  time_of_consensus = fifth_line[2].replace(":", "-")
+  commd = "cp /tmp/consensus_dump ./data/"+date_of_consensus+"-"+time_of_consensus+"-consensus"
   os.system(commd)
 
 #   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
