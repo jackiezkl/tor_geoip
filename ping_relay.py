@@ -20,7 +20,7 @@ def node_ping(path_to_file, which_node):
     heading = next(latest_relays)
 
     relay_reader = csv.reader(latest_relays)
-    print("[+] Start pinging, hold on...")
+#     print("[+] Start pinging, hold on...")
     for row in relay_reader:
       line = row
       if node in line[2]:
