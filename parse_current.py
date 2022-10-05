@@ -12,9 +12,9 @@ GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
 # create the csv file to put the processed consensus info
-def create_csv_file(date,time):
+def create_csv_file(date_of_consensus,time_of_consensus):
     csv_filename = 'data/all_node_info-%s-%s.csv' % \
-            (date,time)
+            (date_of_consensus,time_of_consensus)
     csv = open(csv_filename, 'w+')
     print("  [+] Creating CSV file %s" % (csv_filename))
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
@@ -28,8 +28,8 @@ def geo_ip_lookup(ip_address):
     return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
 # process the latest consensus, save the extracted info to csv file.
-def generate_csv(consensus, path_to_file, date, time):
-  csv_fill, node_file_path = create_csv_file(date,time)
+def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
+  csv_fill, node_file_path = create_csv_file(date_of_consensus,time_of_consensus)
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
 
@@ -70,9 +70,9 @@ def main():
   download_consensus()
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
-  date = fifth_line[1]
-  time = fifth_line[2]
-  commd = "cp /tmp/consensus_dump ./data/"+date+"-"+time+"consensus"
+  date_of_consensus = fifth_line[1]
+  time_of_consensus = fifth_line[2]
+  commd = "cp /tmp/consensus_dump ./data/"+date_of_consensus+"-"+time_of_consensus+"consensus"
   os.system(commd)
 
 #   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
@@ -82,7 +82,7 @@ def main():
   consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
 
   print("  [+] Generating the relay information...")
-  node_file_path = generate_csv(consensus, path_to_file, date, time)
+  node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
   print("  [+] Pinging US guard nodes...")
   node_ping(node_file_path,'guard')
