@@ -16,8 +16,9 @@ def create_csv_file(date_of_consensus,time_of_consensus):
     csv_filename = 'data/all_node_info-%s-%s.csv' % \
             (date_of_consensus,time_of_consensus)
     csv = open(csv_filename, 'w+')
-    print("  [+] Creating CSV file %s" % (csv_filename))
+
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
+    print("  [+] Created CSV file: %s" % (csv_filename))
     return csv,csv_filename
 
 # ip address lookup for the country, city and state
@@ -30,6 +31,7 @@ def geo_ip_lookup(ip_address):
 # process the latest consensus, save the extracted info to csv file.
 def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
   csv_fill, node_file_path = create_csv_file(date_of_consensus,time_of_consensus)
+  print("  [+] Filling in the relay nodes information to CSV file...")
   for desc in consensus.routers.values():
     country, city, state = geo_ip_lookup(desc.address)
 
@@ -49,6 +51,7 @@ def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
                                                    float(desc.bandwidth/1000.0/1000.0),country,city,state))
   csv_fill.close()
   return node_file_path
+
 # acquire the latest consensus
 def download_consensus():
   downloader = DescriptorDownloader()
@@ -56,7 +59,7 @@ def download_consensus():
   while flag == False:
     try:
       consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
-      print("  [+] Censensus file downloaded.")
+      print("  [+] Latest Tor censensus file downloaded.")
       flag = True
     except Exception:
       print("  [+] Couldn't download consensus file, trying again...")
@@ -95,7 +98,7 @@ def main():
   end_time = time.perf_counter()
   
   difference = end_time - start_time
-  print("  [+] Done in %s seconds" & str(difference))
+  print("  [+] All process done! Total time spent: %s seconds" & str(difference))
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
