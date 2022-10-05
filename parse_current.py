@@ -98,7 +98,7 @@ def main():
   end_time = time.perf_counter()
   
   difference = end_time - start_time
-  print("  [+] All process done! Total time spent: %s seconds" & str(difference))
+  print("  [+] All process done! Total time spent: %s seconds" % str(difference))
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
