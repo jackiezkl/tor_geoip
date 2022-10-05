@@ -1,7 +1,8 @@
 import csv,sys
 from ping3 import ping
 
-
+#ping each node with options of guard, middle, or exit, then
+#put into file if the round trip time is less than 100 ms.
 def node_ping(path_to_file, which_node):
   if which_node == 'guard':
     node = 'G'
@@ -20,7 +21,7 @@ def node_ping(path_to_file, which_node):
     heading = next(latest_relays)
 
     relay_reader = csv.reader(latest_relays)
-#     print("[+] Start pinging, hold on...")
+
     for row in relay_reader:
       line = row
       if node in line[2]:
