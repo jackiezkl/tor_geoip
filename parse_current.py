@@ -66,6 +66,7 @@ def download_consensus():
     descriptor_file.write(str(consensus))
 
 def main():
+  start_time = time.perf_counter()
   download_consensus()
 
   fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
@@ -91,8 +92,10 @@ def main():
   
   print("  [+] Pinging US exit nodes...")
   node_ping(node_file_path,'exit')
+  end_time = time.perf_counter()
   
-  print("  [+] Done!")
+  difference = end_time - start_time
+  print("  [+] Done in %s seconds" & str(difference))
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
