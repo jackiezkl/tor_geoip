@@ -150,6 +150,10 @@ def main():
   guard_thread.start()
   middle_thread.start()
   exit_thread.start()
+  
+  guard_thread.join()
+  middle_thread.join()
+  exit_thread.join()
 #   print("  [+] Pinging US middle nodes...")
 #   node_ping(node_file_path,'middle')
   
