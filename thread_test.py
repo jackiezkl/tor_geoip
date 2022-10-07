@@ -1,7 +1,7 @@
 import threading
 from ping_relay import node_ping
 
-class myThread (threading,Thread):
+class myThread (threading.Thread):
   def __init__(self, threadID, name, counter, file_path, node_option):
     threading.Thread.__init__(self)
     self.threadID = threadID
