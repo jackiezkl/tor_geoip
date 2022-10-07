@@ -63,7 +63,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
 
   latest_relays.close()
   result_fill.close()
-  print("  [+] Done! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,date_of_consensus,time_of_consensus))
+  print("  [+] Done pinging %s! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,which_node,date_of_consensus,time_of_consensus))
 
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
