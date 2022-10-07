@@ -143,9 +143,9 @@ def main():
   
 #   print("  [+] Pinging US guard nodes...")
 #   node_ping(node_file_path,'guard')
-  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard")
-  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle")
-  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit")
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
+  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
   
   guard_thread.start()
   middle_thread.start()
