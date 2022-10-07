@@ -6,7 +6,8 @@ import os, sys, stem, time, linecache, pygeoip, threading
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
-from ping_relay import node_ping
+from ping3 import ping
+# from ping_relay import node_ping
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
