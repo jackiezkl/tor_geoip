@@ -14,16 +14,18 @@ geoip_reader = None
 
 #multi-thread class
 class pingThread (threading.Thread):
-  def __init__(self, threadID, name, counter, file_path, node_option):
+  def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus):
     threading.Thread.__init__(self)
     self.threadID = threadID
     self.name = name
     self.counter = counter
     self.path = file_path
     self.option = node_option
+    self.date = date_of_consensus
+    self.time = time_of_consensus
   def run(self):
     print("  [+] Pinging US %s nodes..." % self.option)
-    node_ping(self.path,self.option)
+    node_ping(self.path,self.option,self.date,self.time)
 
 #ping each node with options of guard, middle, or exit, then
 #put into file if the round trip time is less than 100 ms.
