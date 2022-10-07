@@ -2,7 +2,7 @@
 # to form a new csv file, which contains the nickname, fingerprint, 
 # ip, country, city, state.
 
-import os, sys, stem, time, linecache, pygeoip
+import os, sys, stem, time, linecache, pygeoip, threading
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
@@ -10,6 +10,57 @@ from ping_relay import node_ping
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
+
+#multi-thread class
+class pingThread (threading.Thread):
+  def __init__(self, threadID, name, counter, file_path, node_option):
+    threading.Thread.__init__(self)
+    self.threadID = threadID
+    self.name = name
+    self.counter = counter
+    self.path = file_path
+    self.option = node_option
+  def run(self):
+    print("  [+] Pinging US %s nodes..." % self.option)
+    node_ping(self.path,self.option)
+
+#ping each node with options of guard, middle, or exit, then
+#put into file if the round trip time is less than 100 ms.
+def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
+  if which_node == 'guard':
+    node = 'G'
+    ping_result_filename = 'data/ping_guard_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+  elif which_node == 'middle':
+    node = 'M'
+    ping_result_filename = 'data/ping_middle_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+  elif which_node == 'exit':
+    node = 'E'
+    ping_result_filename = 'data/ping_exit_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+
+  result_fill = open(ping_result_filename, 'w+')
+  result_fill.write('nickname,fingerprint,ip,latency\n')
+
+  with open(path_to_file) as latest_relays:
+    heading = next(latest_relays)
+
+    relay_reader = csv.reader(latest_relays)
+
+    for row in relay_reader:
+      line = row
+      if node in line[2]:
+        if line[6] == 'US':
+          latency = ping(line[3], unit='ms')
+          if latency is None:
+            continue
+          elif latency < 100:
+            try:
+              result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+            except Exception:
+              continue
+
+  latest_relays.close()
+  result_fill.close()
+  print("  [+] Done! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,date_of_consensus,time_of_consensus))
 
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
@@ -87,14 +138,20 @@ def main():
   print("  [+] Generating the relay information...")
   node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
-  print("  [+] Pinging US guard nodes...")
-  node_ping(node_file_path,'guard')
+#   print("  [+] Pinging US guard nodes...")
+#   node_ping(node_file_path,'guard')
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard")
+  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle")
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit")
   
-  print("  [+] Pinging US middle nodes...")
-  node_ping(node_file_path,'middle')
+  guard_thread.start()
+  middle_thread.start()
+  exit_thread.start()
+#   print("  [+] Pinging US middle nodes...")
+#   node_ping(node_file_path,'middle')
   
-  print("  [+] Pinging US exit nodes...")
-  node_ping(node_file_path,'exit')
+#   print("  [+] Pinging US exit nodes...")
+#   node_ping(node_file_path,'exit')
   end_time = time.perf_counter()
   
   difference = end_time - start_time
