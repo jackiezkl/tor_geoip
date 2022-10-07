@@ -12,7 +12,7 @@ class myThread (threading,Thread):
   def run(self):
     print("starting " + self.name)
     node_ping(self.path,self.option)
-    print(exiting " + self.name)
+    print("exiting " + self.name)
 
 thread1 = myThread(1, "Ping exit", 1, "data/all_node_info-2022-10-05-16-00-00.csv", "exit")
 thread2 = myThread(2, "Ping exit", 2, "data/all_node_info-2022-10-05-16-00-00.csv", "guard")
