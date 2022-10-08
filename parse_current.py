@@ -32,13 +32,13 @@ class pingThread (threading.Thread):
 def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
   if which_node == 'guard':
     node = 'G'
-    ping_result_filename = 'data/ping_guard_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv'
   elif which_node == 'middle':
     node = 'M'
-    ping_result_filename = 'data/ping_middle_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv'
   elif which_node == 'exit':
     node = 'E'
-    ping_result_filename = 'data/ping_exit_result_'+date_of_consensus+'_'+time_of_consensus+'.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv'
 
   result_fill = open(ping_result_filename, 'w+')
   result_fill.write('nickname,fingerprint,ip,latency\n')
@@ -63,12 +63,12 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
 
   latest_relays.close()
   result_fill.close()
-  print("  [+] Done pinging %s! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,which_node,
-                                                                                    date_of_consensus,time_of_consensus))
+  print("  [+] Done pinging %s! Please check file data/%s-%s-ping_%s_result.csv" % (which_node,date_of_consensus,
+                                                                                    time_of_consensus,which_node))
 
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
-    csv_filename = 'data/all_node_info-%s-%s.csv' % \
+    csv_filename = 'data/%s-%s-all_node_info.csv' % \
             (date_of_consensus,time_of_consensus)
     csv = open(csv_filename, 'w+')
 
@@ -142,8 +142,6 @@ def main():
   print("  [+] Generating the relay information...")
   node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
-#   print("  [+] Pinging US guard nodes...")
-#   node_ping(node_file_path,'guard')
   guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
@@ -155,11 +153,7 @@ def main():
   guard_thread.join()
   middle_thread.join()
   exit_thread.join()
-#   print("  [+] Pinging US middle nodes...")
-#   node_ping(node_file_path,'middle')
-  
-#   print("  [+] Pinging US exit nodes...")
-#   node_ping(node_file_path,'exit')
+
   end_time = time.perf_counter()
   
   difference = end_time - start_time
