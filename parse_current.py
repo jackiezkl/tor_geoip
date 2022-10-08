@@ -2,7 +2,7 @@
 # to form a new csv file, which contains the nickname, fingerprint, 
 # ip, country, city, state.
 
-import os, sys, stem, time, linecache, pygeoip, threading
+import os, csv, sys, stem, time, linecache, pygeoip, threading
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
@@ -63,7 +63,8 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
 
   latest_relays.close()
   result_fill.close()
-  print("  [+] Done pinging %s! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,which_node,date_of_consensus,time_of_consensus))
+  print("  [+] Done pinging %s! Please check file data/ping_%s_result_%s_%s.csv" % (which_node,which_node,
+                                                                                    date_of_consensus,time_of_consensus))
 
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
