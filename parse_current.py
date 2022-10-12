@@ -1,13 +1,14 @@
-# This program pulls the current consensus, then extract information
-# to form a new csv file, which contains the nickname, fingerprint, 
-# ip, country, city, state.
+# This program pulls the current consensus, then extract information to form a new csv file, which contains
+# the nickname, fingerprint, ip, country, city, state. With the new file, the program pings all relays that
+# geolocated in US, save the nodes' information that are having round trip latency less than 100ms. At last,
+# the program pull the fingerprint information to form a tor config file for the tor program. When tor runs,
+# it will only picking the relays within US.
 
 import os, csv, sys, stem, time, linecache, pygeoip, threading
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
 from ping3 import ping
-# from ping_relay import node_ping
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
@@ -66,6 +67,13 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
   print("  [+] Done pinging %s! Please check file data/%s-%s-ping_%s_result.csv" % (which_node,date_of_consensus,
                                                                                     time_of_consensus,which_node))
 
+# ip address lookup for the country, city and state
+def geo_ip_lookup(ip_address):
+    record = geoip_reader.city(ip_address)
+    if record is None:
+        return (False, False)
+    return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
+  
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
     csv_filename = 'data/%s-%s-all_node_info.csv' % \
@@ -75,13 +83,6 @@ def create_csv_file(date_of_consensus,time_of_consensus):
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
     print("  [+] Created CSV file: %s" % (csv_filename))
     return csv,csv_filename
-
-# ip address lookup for the country, city and state
-def geo_ip_lookup(ip_address):
-    record = geoip_reader.city(ip_address)
-    if record is None:
-        return (False, False)
-    return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
 
 # process the latest consensus, save the extracted info to csv file.
 def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
@@ -123,6 +124,39 @@ def download_consensus():
   with open('/tmp/consensus_dump', 'w') as descriptor_file:
     descriptor_file.write(str(consensus))
 
+# extract the wanted relay fingerprint information
+def extract_relay_fingerprints(path_to_ping_result_file):
+  rows = ''
+  with open (path_to_ping_result_file) as exit_relays:
+    relay_list_reader = csv.reader(exit_relays)
+    fields = next(relay_list_reader)
+    for row in relay_list_reader:
+      rows = rows + row[1] + ','
+  rows = rows[:-1]
+  exit_relays.close()
+  return rows
+
+# write the new torrc file, and move it to place
+def config_tor(date_of_consensus,time_of_consensus):
+  entries = ''
+  middles = ''
+  exits = ''
+  
+  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv')
+  middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv')
+  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
+  
+  with open('torrc', 'w') as tor_config:
+    tor_config.write('SOCKSPort 172.17.0.1:9050\n')
+    tor_config.write('\n')
+    tor_config.write('EntryNodes '+entries+'\n')
+    tor_config.write('MiddleNodes '+middles+'\n')
+    tor_config.write('ExitNodes '+exits+'\n')
+    tor_config.write('\n')
+    tor_config.write('ControlPort 9051\n')
+    
+  tor_config.close()
+
 def main():
   start_time = time.perf_counter()
   download_consensus()
@@ -132,8 +166,6 @@ def main():
   time_of_consensus = fifth_line[2].replace(":", "-")
   commd = "cp /tmp/consensus_dump ./data/"+date_of_consensus+"-"+time_of_consensus+"-consensus"
   os.system(commd)
-
-#   year, month, day = [fifth_line[1].split('-')[i] for i in (0,1,2)]
 
   path_to_file = '/tmp/consensus_dump'
   print("  [+] Reading consensus file...")
@@ -157,7 +189,13 @@ def main():
   end_time = time.perf_counter()
   
   difference = end_time - start_time
-  print("  [+] All process done! Total time spent: %s seconds" % str(difference))
+  print("  [+] Done pinging! Total time spent: %s seconds" % str(difference))
+  
+  print("  [+] Generating new tor config file...")
+  config_tor(date_of_consensus, time_of_consensus)
+  #os.system('mv torrc /etc/tor/torrc')
+  
+  print("  [+] All done!")
 
 if __name__=='__main__':
 #   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
