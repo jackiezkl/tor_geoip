@@ -6,7 +6,7 @@ def main():
     fields = next(relay_list_reader)
     for row in relay_list_reader:
       rows.append(row[1])
-      print rows
+      print(rows)
 
 if __name__ == '__main__':
   main()
