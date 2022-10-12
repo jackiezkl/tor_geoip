@@ -1,6 +1,6 @@
 import csv
 
-def extract_relay_fingerprints(path_to_ping_result_file)
+def extract_relay_fingerprints(path_to_ping_result_file):
   rows = ''
   with open (path_to_ping_result_file) as exit_relays:
     relay_list_reader = csv.reader(exit_relays)
