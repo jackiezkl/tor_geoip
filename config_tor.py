@@ -21,6 +21,8 @@ def main():
     tor_config.write('ExitNodes {us} StrictNodes 1\n')
     tor_config.write('\n')
     tor_config.write('ControlPort 9051\n')
+    
+  tor_config.close()
   
 if __name__ == '__main__':
   main()
