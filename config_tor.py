@@ -8,7 +8,7 @@ def main():
     relay_list_reader = csv.reader(exit_relays)
     fields = next(relay_list_reader)
     for row in relay_list_reader:
-      rows = rows + row + ','
+      rows = rows + row[1] + ','
   print(rows)
   
   filename = ''
