@@ -9,6 +9,7 @@ def main():
     fields = next(relay_list_reader)
     for row in relay_list_reader:
       rows = rows + row[1] + ','
+  rows = rows[:-1]
   print(rows)
   
   filename = ''
