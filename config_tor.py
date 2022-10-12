@@ -13,12 +13,11 @@ def main():
   print(rows)
   
   with open('torrc', 'w') as tor_config:
-    tor_config.write('SOCKSPort 172.17.0.1:9050')
-    tor_config.write('\n')
+    tor_config.write('SOCKSPort 172.17.0.1:9050\n')
     tor_config.write('\n')
     tor_config.write('EntryNodes {us} StrictNodes 1\n')
     tor_config.write('MiddleNodes {us} StrictNodes 1\n')
-    tor_config.write('ExitNodes {us} StrictNodes 1\n')
+    tor_config.write('ExitNodes '+rows+'\n')
     tor_config.write('\n')
     tor_config.write('ControlPort 9051\n')
     
