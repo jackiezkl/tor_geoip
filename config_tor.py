@@ -24,7 +24,7 @@ def main():
     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
     tor_config.write('\n')
     tor_config.write('EntryNodes '+entries+'\n')
-    tor_config.write('MiddleNodes '+middless+'\n')
+    tor_config.write('MiddleNodes '+middles+'\n')
     tor_config.write('ExitNodes '+exits+'\n')
     tor_config.write('\n')
     tor_config.write('ControlPort 9051\n')
