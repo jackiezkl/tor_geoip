@@ -11,7 +11,7 @@ def main():
       rows = rows + row + ','
   print(rows)
   
-  filename = 
+  filename = ''
   
   
 if __name__ == '__main__':
