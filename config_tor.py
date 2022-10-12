@@ -12,8 +12,15 @@ def main():
   rows = rows[:-1]
   print(rows)
   
-  filename = ''
-  
+  with open('torrc', 'w') as tor_config:
+    tor_config.write('SOCKSPort 172.17.0.1:9050')
+    tor_config.write('\n')
+    tor_config.write('\n')
+    tor_config.write('EntryNodes {us} StrictNodes 1\n')
+    tor_config.write('MiddleNodes {us} StrictNodes 1\n')
+    tor_config.write('ExitNodes {us} StrictNodes 1\n')
+    tor_config.write('\n')
+    tor_config.write('ControlPort 9051\n')
   
 if __name__ == '__main__':
   main()
