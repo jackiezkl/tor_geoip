@@ -16,7 +16,7 @@ def main():
   middles = ''
   exits = ''
   
-  entires = extract_relay_fingerprints('./data/2022-10-08-14-00-00-ping_guard_result.csv')
+  entries = extract_relay_fingerprints('./data/2022-10-08-14-00-00-ping_guard_result.csv')
   middles = extract_relay_fingerprints('./data/2022-10-08-14-00-00-ping_middle_result.csv')
   exits = extract_relay_fingerprints('./data/2022-10-08-14-00-00-ping_exit_result.csv')
   
