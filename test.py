@@ -6,4 +6,4 @@ while True:
   if not line:
     break
   #the real code does filtering here
-  print "test:", line.rstrip()
+  print("test:" + line.rstrip())
