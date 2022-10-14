@@ -154,6 +154,7 @@ def config_tor(date_of_consensus,time_of_consensus):
     tor_config.write('ExitNodes '+exits+'\n')
     tor_config.write('\n')
     tor_config.write('ControlPort 9051\n')
+    tor_config.write('ClientOnly 1')
     
   tor_config.close()
 
