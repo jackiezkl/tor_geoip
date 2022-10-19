@@ -146,7 +146,7 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
   
-  with open('torrc', 'w') as tor_config:
+  with open('data/torrc', 'w') as tor_config:
     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
     tor_config.write('\n')
     tor_config.write('EntryNodes '+entries+'\n')
@@ -199,8 +199,8 @@ def main():
   print("  [+] All done!")
 
 if __name__=='__main__':
-#   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
-  geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
+  geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
+#   geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
   if not os.path.isdir("./data"):
     #os.system("rm -R ./data")
     os.mkdir("./data")
