@@ -50,7 +50,7 @@ def check_circuit():
 
 #         print(" %s- %s (%s, %s, %s)" % (div, fingerprint, nickname, address, country))
 #         print("Circuit %s (%s) %s (%s, %s, %s)" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
-        csv_fill.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country)
+        csv_fill.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
                        
 if __name__ == '__main__':
   check_circuit()
