@@ -31,7 +31,7 @@ if __name__ == '__main__':
       print("Circuit %s (%s)" % (circ.id, circ.purpose))
 
       for i, entry in enumerate(circ.path):
-        div = '+' if (i == len(circ.path) - 1) else '|'
+#         div = '+' if (i == len(circ.path) - 1) else '|'
         fingerprint, nickname = entry
 
         desc = controller.get_network_status(fingerprint, None)
