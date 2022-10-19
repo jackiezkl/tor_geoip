@@ -38,4 +38,5 @@ if __name__ == '__main__':
         address = desc.address if desc else 'unknown'
         country = geo_ip_lookup(address)
 
-        print(" %s- %s (%s, %s, %s)" % (div, fingerprint, nickname, address, country))
+#         print(" %s- %s (%s, %s, %s)" % (div, fingerprint, nickname, address, country))
+        print("%s (%s, %s, %s)" % (fingerprint, nickname, address, country))
