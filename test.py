@@ -5,5 +5,4 @@ while True:
   line = proc.stdout.readline()
   if not line:
     break
-  #the real code does filtering here
-  print(line.rstrip())
+  print(line.decode().rstrip())
