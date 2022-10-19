@@ -76,13 +76,13 @@ def geo_ip_lookup(ip_address):
   
 # create the csv file to put the processed consensus info
 def create_csv_file(date_of_consensus,time_of_consensus):
-    csv_filename = 'data/%s-%s-all_node_info.csv' % \
+    all_node_info_csv_filename = 'data/%s-%s-all_node_info.csv' % \
             (date_of_consensus,time_of_consensus)
-    csv = open(csv_filename, 'w+')
+    csv = open(all_node_info_csv_filename, 'w+')
 
     csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
-    print("  [+] Created CSV file: %s" % (csv_filename))
-    return csv,csv_filename
+    print("  [+] Created CSV file: %s" % (all_node_info_csv_filename))
+    return csv,all_node_info_csv_filename
 
 # process the latest consensus, save the extracted info to csv file.
 def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
