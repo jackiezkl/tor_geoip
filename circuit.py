@@ -28,7 +28,6 @@ if __name__ == '__main__':
       if circ.status != CircStatus.BUILT:
         continue
 
-      print("")
       print("Circuit %s (%s)" % (circ.id, circ.purpose))
 
       for i, entry in enumerate(circ.path):
