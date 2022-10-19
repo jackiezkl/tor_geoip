@@ -28,7 +28,7 @@ if __name__ == '__main__':
       if circ.status != CircStatus.BUILT:
         continue
 
-      print("Circuit %s (%s)" % (circ.id, circ.purpose))
+#       print("Circuit %s (%s)" % (circ.id, circ.purpose))
 
       for i, entry in enumerate(circ.path):
 #         div = '+' if (i == len(circ.path) - 1) else '|'
@@ -39,4 +39,4 @@ if __name__ == '__main__':
         country = geo_ip_lookup(address)
 
 #         print(" %s- %s (%s, %s, %s)" % (div, fingerprint, nickname, address, country))
-        print("%s (%s, %s, %s)" % (fingerprint, nickname, address, country))
+        print("Circuit %s (%s) %s (%s, %s, %s)" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
