@@ -41,6 +41,7 @@ def check_circuit():
 
         desc = controller.get_network_status(fingerprint, None)
         address = desc.address if desc else 'unknown'
+        print(address)
         country = geo_ip_lookup(address)
 
         csv_fill.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
