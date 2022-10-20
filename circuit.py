@@ -12,6 +12,7 @@ geoip_reader = None
 
 def geo_ip_lookup(ip_address):
   record = geoip_reader.city(ip_address)
+  print(record)
   if record is None:
       return ("unknown")
   return (record.country.iso_code)
