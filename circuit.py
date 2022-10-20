@@ -11,7 +11,6 @@ GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
 def geo_ip_lookup(ip_address):
-  print(ip_address)
   record = geoip_reader.city(ip_address)
   if record is None:
       return ("unknown")
@@ -42,7 +41,6 @@ if __name__ == '__main__':
 
         desc = controller.get_network_status(fingerprint, None)
         address = desc.address if desc else 'unknown'
-        print(address)
         country = geo_ip_lookup(address)
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
