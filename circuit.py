@@ -17,7 +17,7 @@ def geo_ip_lookup(ip_address):
       return ("unknown")
   return (record.country.iso_code)
 
-def main():
+if __name__ == '__main__':
   circuit_csv_filename = 'data/circuit.csv'
 
 # def check_circuit(date_of_consensus,time_of_consensus):
@@ -29,7 +29,7 @@ def main():
   print("  [+] Created CSV file: %s" % (circuit_csv_filename))
 
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
-  
+
   with Controller.from_port(port = 9051) as controller:
     controller.authenticate()
 
@@ -46,6 +46,4 @@ def main():
         country = geo_ip_lookup(address)
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
-                       
-if __name__ == '__main__':
-  main()
+
