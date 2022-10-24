@@ -1,5 +1,9 @@
 import subprocess,time
-import tor_controller, circuit
+from tor_controller import change_circuit
+from circuit import geo_ip_lookup,record_circuit
+
+GEOIP_FILENAME = "GeoLite2-City.mmdb"
+geoip_reader = None
 
 # tor_proc = subprocess.Popen(['tor','-f','data/torrc'])
 # print('building tor circuit...')
