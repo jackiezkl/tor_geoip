@@ -16,10 +16,6 @@ def geo_ip_lookup(ip_address):
       return ("unknown")
   return (record.country.iso_code)
 
-# tor_proc = subprocess.Popen(['tor','-f','data/torrc'])
-# print('building tor circuit...')
-
-# time.sleep(20)
 
 def record_circuit():
   circuit_csv_filename = 'data/circuit.csv'
@@ -80,6 +76,13 @@ def change_circuit():
 
 if __name__ == '__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
+  
+  
+  tor_proc = subprocess.Popen(['tor','-f','data/torrc'])
+  print('building tor circuit...')
+
+  time.sleep(20)
+  
   while True:
     change_circuit()
     time.sleep(1)
