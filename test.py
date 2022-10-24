@@ -10,7 +10,7 @@ from stem.control import Controller
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
-def geo_ip_lookup(ip_address):
+def geo_country_iso_lookup(ip_address):
   record = geoip_reader.city(ip_address)
   if record is None:
       return ("unknown")
@@ -41,7 +41,7 @@ def record_circuit():
 
         desc = controller.get_network_status(fingerprint, None)
         address = desc.address if desc else 'unknown'
-        country = geo_ip_lookup(address)
+        country = geo_country_iso_lookup(address)
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
