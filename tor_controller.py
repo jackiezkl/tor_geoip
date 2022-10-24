@@ -10,7 +10,7 @@ from stem.control import Controller
 
 #start and change to a new circuit
 
-if __name__ == '__main__':
+def main():
   try:
     controller = Controller.from_port(port=9051)
   except stem.SocketError as exc:
@@ -38,3 +38,6 @@ if __name__ == '__main__':
   except Exception as e:
     print("Error creating new circuit")
   controller.close()
+
+if __name__ == '__main__':
+  main()
