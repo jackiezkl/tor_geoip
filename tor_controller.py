@@ -31,7 +31,7 @@ def change_circuit():
     print("Unable to authenticate: %s" % exc)
     sys.exit(1)
 
-  print("Tor is changing circuit...")
+  print("  [+] Tor is changing circuit...")
   try:
     controller.new_circuit()
 #     controller.signal(Signal.NEWNYM)
