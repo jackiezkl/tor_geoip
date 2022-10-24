@@ -88,8 +88,8 @@ if __name__ == '__main__':
           record_circuit()
           time.sleep(1)
       except KeyboardInterrupt:
-        print("  [+] Progress manually stopped, gracefully existing...")
-        tor_proc,kill()
+        print("[+] Progress manually stopped, gracefully existing...")
+        tor_proc.kill()
         sys.exit()
         
         
