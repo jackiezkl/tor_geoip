@@ -243,10 +243,10 @@ def main():
   print("  [+] All done! New tor configure file has generated.")
   print("  [+] Starting tor with the new config...")
   
-  proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+  tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
   print("  [+] Tor started in the background. Collecting circuit information now...")
   while True:
-    line = proc.stdout.readline()
+    line = tor_proc.stdout.readline()
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       while True:
         change_circuit()
