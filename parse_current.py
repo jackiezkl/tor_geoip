@@ -248,11 +248,17 @@ def main():
   while True:
     line = tor_proc.stdout.readline()
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
-      while True:
-        change_circuit()
-        time.sleep(1)
-        record_circuit(date_of_consensus,time_of_consensus)
-        time.sleep(1)
+      try:
+        while True:
+          change_circuit()
+          time.sleep(1)
+          record_circuit(date_of_consensus,time_of_consensus)
+          time.sleep(1)
+      except KeyboardInterrupt:
+        print("[+] Progress manually stopped, gracefully existing...")
+        tor_proc.kill()
+        sys.exit(0)
+        os._exit(0)
 
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
