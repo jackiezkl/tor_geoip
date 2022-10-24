@@ -8,7 +8,7 @@ import stem.connection
 from stem.control import Controller
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
-geoip_reader = NONE
+geoip_reader = None
 
 def geo_ip_lookup(ip_address):
   record = geoip_reader.city(ip_address)
