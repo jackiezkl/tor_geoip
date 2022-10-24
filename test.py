@@ -1,4 +1,5 @@
 import subprocess,time
+import tor_controller, circuit
 
 # tor_proc = subprocess.Popen(['tor','-f','data/torrc'])
 # print('building tor circuit...')
@@ -7,7 +8,7 @@ import subprocess,time
 
 proc = subprocess.Popen(['python3','circuit.py'],stdout=subprocess.PIPE)
 while True:
-  line = proc.stdout.readline()
-  if not line:
-    break
-  print(line.decode().rstrip())
+  change_circuit()
+  time.sleep(1)
+  record_circuit()
+  time.sleep(1)
