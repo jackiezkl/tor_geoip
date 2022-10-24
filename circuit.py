@@ -16,7 +16,7 @@ def geo_ip_lookup(ip_address):
       return ("unknown")
   return (record.country.iso_code)
 
-if __name__ == '__main__':
+def record_circuit():
   circuit_csv_filename = 'data/circuit.csv'
 
 # def check_circuit(date_of_consensus,time_of_consensus):
@@ -45,3 +45,5 @@ if __name__ == '__main__':
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
+if __name__ == '__main__':
+  record_circuit()
