@@ -8,7 +8,7 @@ import stem.connection
 from stem.control import Controller
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
-geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
+geoip_reader = NONE
 
 def geo_ip_lookup(ip_address):
   record = geoip_reader.city(ip_address)
@@ -21,7 +21,7 @@ def geo_ip_lookup(ip_address):
 
 # time.sleep(20)
 
-def main():
+def record_circuit():
   circuit_csv_filename = 'data/circuit.csv'
 
 # def check_circuit(date_of_consensus,time_of_consensus):
@@ -79,7 +79,7 @@ def change_circuit():
   controller.close()
 
 if __name__ == '__main__':
-#   proc = subprocess.Popen(['python3','circuit.py'],stdout=subprocess.PIPE)
+  geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   while True:
     change_circuit()
     time.sleep(1)
