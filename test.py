@@ -83,5 +83,5 @@ if __name__ == '__main__':
   while True:
     change_circuit()
     time.sleep(1)
-    main()
+    record_circuit()
     time.sleep(1)
