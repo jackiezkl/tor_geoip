@@ -194,9 +194,11 @@ def main():
   
   print("  [+] Generating new tor config file...")
   config_tor(date_of_consensus, time_of_consensus)
-  #os.system('mv torrc /etc/tor/torrc')
   
-  print("  [+] All done!")
+  print("  [+] All done! New tor configure file has generated.")
+  print("  [+] Starting tor with the new config...")
+  os.system('tor -f data/torrc')
+
 
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
