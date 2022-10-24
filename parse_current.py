@@ -246,7 +246,7 @@ def main():
   
   time.sleep(20)
 
-  while true:
+  while True:
     chance_circuit()
     time.sleep(1)
     record_circuit(date_of_consensus,time_of_consensus)
