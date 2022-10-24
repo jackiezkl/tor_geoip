@@ -91,7 +91,8 @@ if __name__ == '__main__':
       except KeyboardInterrupt:
         print("[+] Progress manually stopped, gracefully existing...")
         tor_proc.kill()
-        sys.exit()
+        sys.exit(0)
+        os._exit(0)
         
         
 
