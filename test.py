@@ -93,7 +93,6 @@ if __name__ == '__main__':
         tor_proc.kill()
         sys.exit(0)
         os._exit(0)
-        print("  [+] See you later!")
         
         
 
