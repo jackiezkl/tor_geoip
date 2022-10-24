@@ -33,8 +33,7 @@ if __name__ == '__main__':
     controller.authenticate()
 
     print(controller.get_circuits())
-#     for circ in sorted(controller.get_circuits()):
-    for circ in controller.get_circuits():
+    for circ in sorted(controller.get_circuits()):
       if circ.status != CircStatus.BUILT:
         continue
 
