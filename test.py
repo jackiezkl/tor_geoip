@@ -21,7 +21,7 @@ def geo_ip_lookup(ip_address):
 
 # time.sleep(20)
 
-def record_circuit():
+def main():
   circuit_csv_filename = 'data/circuit.csv'
 
 # def check_circuit(date_of_consensus,time_of_consensus):
@@ -83,5 +83,5 @@ if __name__ == '__main__':
   while True:
     change_circuit()
     time.sleep(1)
-    record_circuit()
+    main()
     time.sleep(1)
