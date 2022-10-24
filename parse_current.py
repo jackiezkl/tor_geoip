@@ -4,7 +4,7 @@
 # the program pull the fingerprint information to form a tor config file for the tor program. When tor runs,
 # it will only picking the relays within US.
 
-import os, csv, sys, stem, time, linecache, pygeoip, threading, subprocess, 
+import os, csv, sys, stem, time, linecache, pygeoip, threading, subprocess
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
