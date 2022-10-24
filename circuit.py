@@ -37,8 +37,7 @@ if __name__ == '__main__':
       if circ.status != CircStatus.BUILT:
         continue
 
-      for i, entry in enumerate(circ.path):
-        fingerprint, nickname = entry
+      for i, (fingerprint, nickname) in enumerate(circ.path):
 
         desc = controller.get_network_status(fingerprint, None)
         address = desc.address if desc else 'unknown'
