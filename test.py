@@ -8,7 +8,7 @@ import stem.connection
 from stem.control import Controller
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
-geoip_reader = None
+geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
 
 def geo_ip_lookup(ip_address):
   record = geoip_reader.city(ip_address)
@@ -32,7 +32,7 @@ def main():
   csv.write('Circuit ID,Circuit Purpose,Fingerprint,Nickname,IP,Country Origin\n')
   print("  [+] Created CSV file: %s" % (circuit_csv_filename))
 
-  geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
+
 
   with Controller.from_port(port = 9051) as controller:
     controller.authenticate()
