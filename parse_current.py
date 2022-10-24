@@ -4,11 +4,15 @@
 # the program pull the fingerprint information to form a tor config file for the tor program. When tor runs,
 # it will only picking the relays within US.
 
-import os, csv, sys, stem, time, linecache, pygeoip, threading
+import os, csv, sys, stem, time, linecache, pygeoip, threading, subprocess, 
 import geoip2.database
 from stem.descriptor import DocumentHandler, parse_file
 from stem.descriptor.remote import DescriptorDownloader
+from stem.control import Controller
+import stem.connection
 from ping3 import ping
+from stem import CircStatus
+
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
@@ -157,7 +161,48 @@ def config_tor(date_of_consensus,time_of_consensus):
     tor_config.write('ClientOnly 1')
     
   tor_config.close()
+  
+def geo_country_iso_lookup(ip_address):
+  record = geoip_reader.city(ip_address)
+  if record is None:
+      return ("unknown")
+  return (record.country.iso_code)
 
+def change_circuit():
+  controller = Controller.from_port(port=9051)
+  controller.authenticate()
+  print("  [+] Tor is changing circuit...")
+  try:
+    controller.new_circuit()
+#     controller.signal(Signal.NEWNYM)
+  except Exception as e:
+    print("Error creating new circuit")
+  controller.close()
+
+def record_circuit(date_of_consensus,time_of_consensus):
+  circuit_csv_filename = 'data/%s-%s-all_node_info.csv' % (date_of_consensus,time_of_consensus)
+  csv = open(circuit_csv_filename, 'w+')
+
+  csv.write('Circuit ID,Circuit Purpose,Fingerprint,Nickname,IP,Country Origin\n')
+  print("  [+] Created CSV file: %s" % (circuit_csv_filename))
+
+
+
+  with Controller.from_port(port = 9051) as controller:
+    controller.authenticate()
+
+    for circ in sorted(controller.get_circuits()):
+      if circ.status != CircStatus.BUILT:
+        continue
+
+      for i, (fingerprint, nickname) in enumerate(circ.path):
+
+        desc = controller.get_network_status(fingerprint, None)
+        address = desc.address if desc else 'unknown'
+        country = geo_country_iso_lookup(address)
+
+        csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
+        
 def main():
   start_time = time.perf_counter()
   download_consensus()
@@ -197,8 +242,15 @@ def main():
   
   print("  [+] All done! New tor configure file has generated.")
   print("  [+] Starting tor with the new config...")
-  os.system('tor -f data/torrc')
+  tor_proc = subprocess.Popen(['tor','-f','data/torrc'])
+  
+  time.sleep(20)
 
+  while true:
+    chance_circuit()
+    time.sleep(1)
+    record_circuit(date_of_consensus,time_of_consensus)
+    time.sleep(1)
 
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
