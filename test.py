@@ -80,6 +80,7 @@ if __name__ == '__main__':
   tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
   while True:
     line = tor_proc.stdout.readline()
+    print(line.decode().rstrip())
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       try:
         while True:
