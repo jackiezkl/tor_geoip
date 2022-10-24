@@ -77,7 +77,7 @@ def change_circuit():
 if __name__ == '__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
   
-  proc = subprocess.Popen(['python3','circuit.py'],stdout=subprocess.PIPE)
+  proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
   while True:
     line = proc.stdout.readline()
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
