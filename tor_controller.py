@@ -12,7 +12,7 @@ from stem.control import Controller
 
 if __name__ == '__main__':
   try:
-    controller = Controller.from_port()
+    controller = Controller.from_port(port=9051)
   except stem.SocketError as exc:
     print("Unable to connect to tor on port 9051: %s" % exc)
     sys.exit(1)
