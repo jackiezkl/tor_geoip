@@ -1,6 +1,10 @@
 import subprocess,time
 from tor_controller import change_circuit
 from circuit import geo_ip_lookup,record_circuit
+from stem import CircStatus
+from stem.control import Controller
+import pygeoip
+import geoip2.database
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
