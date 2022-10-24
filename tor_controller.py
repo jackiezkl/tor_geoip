@@ -10,7 +10,7 @@ from stem.control import Controller
 
 #start and change to a new circuit
 
-def main():
+def change_circuit():
   try:
     controller = Controller.from_port(port=9051)
   except stem.SocketError as exc:
@@ -40,4 +40,4 @@ def main():
   controller.close()
 
 if __name__ == '__main__':
-  main()
+  change_circuit()
