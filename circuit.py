@@ -32,7 +32,6 @@ def record_circuit():
   with Controller.from_port(port = 9051) as controller:
     controller.authenticate()
 
-    print(controller.get_circuits())
     for circ in sorted(controller.get_circuits()):
       if circ.status != CircStatus.BUILT:
         continue
