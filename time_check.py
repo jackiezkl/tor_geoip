@@ -103,6 +103,7 @@ class pingThread (threading.Thread):
       node_ping(self.path,self.option,self.date,self.time)
     except KeyboardInterrupt:
       print("  [+] Manually stopped.")
+      pass
 
 if __name__ == "__main__":
   date_of_consensus = "2022-10-25"
@@ -136,6 +137,6 @@ if __name__ == "__main__":
     guard_thread.join()
     middle_thread.join()
     exit_thread.join()
-  except RuntimeError:
+  except (RuntimeError,KeyboardInterrupt):
     pass
   print("done!")
