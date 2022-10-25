@@ -9,7 +9,7 @@ def check_time(time_of_consensus, collection_length):
   
   if int_hour == q:
     print("got it")
-    tor_proc.kill()
+#     tor_proc.kill()
     sys.exit()
     os._exit()
 
