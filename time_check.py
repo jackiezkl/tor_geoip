@@ -110,19 +110,23 @@ if __name__ == "__main__":
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
 
-  if over_write("guard",date_of_consensus,time_of_consensus) == "yes":
+  guard_flag = over_write("guard",date_of_consensus,time_of_consensus)
+  middle_flag = over_write("middle",date_of_consensus,time_of_consensus)
+  exit_flag = over_write("exit",date_of_consensus,time_of_consensus)
+
+  if guard_flag == "yes":
     guard_thread.start()
-  elif over_write("guard",date_of_consensus,time_of_consensus) == "does not exist":
+  elif guard_flag == "does not exist":
     guard_thread.start()
 
-  if over_write("middle",date_of_consensus,time_of_consensus) == "yes":
+  if middle_flag == "yes":
     middle_thread.start()
-  elif over_write("middle",date_of_consensus,time_of_consensus) == "does not exist":
+  elif middle_flag == "does not exist":
     middle_thread.start()
 
-  if over_write("exit",date_of_consensus,time_of_consensus) == "yes":
+  if exit_flag == "yes":
     exit_thread.start()
-  elif over_write("exit",date_of_consensus,time_of_consensus) == "does not exist":
+  elif exit_flag == "does not exist":
     exit_thread.start()
 
   guard_thread.join()
