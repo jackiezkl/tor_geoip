@@ -180,7 +180,7 @@ def change_circuit():
   controller.close()
 
 def record_circuit(date_of_consensus,time_of_consensus):
-  circuit_csv_filename = 'data/%s-%s-all_node_info.csv' % (date_of_consensus,time_of_consensus)
+  circuit_csv_filename = 'data/%s-%s-circuit_info.csv' % (date_of_consensus,time_of_consensus)
   csv = open(circuit_csv_filename, 'w+')
 
   csv.write('Circuit ID,Circuit Purpose,Fingerprint,Nickname,IP,Country Origin\n')
