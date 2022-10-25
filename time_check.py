@@ -3,7 +3,7 @@ import datetime, time
 def check_time(time_of_consensus, collection_length):
   hour = time_of_consensus.split("-")
   int_hour = (int(hour[0])+collection_length)%24
-  q = datetime.datetime.now().hour
+  q = datetime.utctime.now().hour
   
   
   if int_hour == q:
@@ -16,6 +16,6 @@ def check_time(time_of_consensus, collection_length):
 
 if __name__=="__main__":
   while True:
-    check_time("21-00-00",1)
+    check_time("02-00-00",1)
     time.sleep(1)
     
