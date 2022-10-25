@@ -129,6 +129,9 @@ if __name__ == "__main__":
   elif exit_flag == "does not exist":
     exit_thread.start()
 
-  guard_thread.join()
-  middle_thread.join()
-  exit_thread.join()
+  try:
+    guard_thread.join()
+    middle_thread.join()
+    exit_thread.join()
+  except RuntimeError:
+    pass
