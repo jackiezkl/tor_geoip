@@ -1,6 +1,7 @@
 from datetime import datetime
 import time,threading,csv
 from ping3 import ping
+from os.path import exists
 
 # def check_time(time_of_consensus, collection_length):
 #   hour = time_of_consensus.split("-")
@@ -41,6 +42,21 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
   elif which_node == 'exit':
     node = 'E'
     ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv'
+
+  does_file_exist = exists(ping_result_filename)
+  if does_file_exist == True:
+    while True:
+      over_write = input("The ping file already exist, overwrite? (y/n)")
+      if over_write.lower() == "n" or over_write.lower() == "no":
+        print("  [+] Will not over write file.")
+        return
+      elif over_write.lower() == "y" or over_write.lower() == "yes":
+        print("  [+] Will not over write file.")
+        break
+      else:
+        print("  [+] Please answer 'yes' or 'no'.")
+        continue
+
 
   result_fill = open(ping_result_filename, 'w+')
   result_fill.write('nickname,fingerprint,ip,latency\n')
