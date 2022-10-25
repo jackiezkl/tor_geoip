@@ -1,5 +1,5 @@
 from datetime import datetime
-import time,threading
+import time,threading,csv
 from ping3 import ping
 
 # def check_time(time_of_consensus, collection_length):
