@@ -117,12 +117,12 @@ if __name__ == "__main__":
 
   if over_write("middle",date_of_consensus,time_of_consensus) == "yes":
     middle_thread.start()
-  elif over_write("middle",date_of_consensus,time_of_consensus) == "does not exist"::
+  elif over_write("middle",date_of_consensus,time_of_consensus) == "does not exist":
     middle_thread.start()
 
   if over_write("exit",date_of_consensus,time_of_consensus) == "yes":
     exit_thread.start()
-  elif over_write("exit",date_of_consensus,time_of_consensus) == "does not exist"::
+  elif over_write("exit",date_of_consensus,time_of_consensus) == "does not exist":
     exit_thread.start()
 
   guard_thread.join()
