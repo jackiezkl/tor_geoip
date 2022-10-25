@@ -12,7 +12,7 @@ from stem.control import Controller
 import stem.connection
 from ping3 import ping
 from stem import CircStatus
-
+from datetime import datetime
 
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
