@@ -1,4 +1,5 @@
-import datetime, time
+from datetime import datetime
+import time
 
 def check_time(time_of_consensus, collection_length):
   hour = time_of_consensus.split("-")
