@@ -1,4 +1,4 @@
-import datetime
+import datetime, time
 
 def check_time(time_of_consensus, collection_length):
   hour = time_of_consensus.split("-")
@@ -11,6 +11,8 @@ def check_time(time_of_consensus, collection_length):
     sys.exit()
     os._exit()
   else:
+    print("not yet")
+    time.sleep(30)
     continue
   
 
