@@ -20,7 +20,7 @@ from ping3 import ping
 #   else:
 #     return "T"
     
-# if __name__ == "__main_":
+# if __name__ == "__main__":
 #   i = 0
 #   l = "T"
 #   while l == "T":
