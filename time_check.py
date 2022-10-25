@@ -51,7 +51,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
         print("  [+] Will not over write file.")
         return
       elif over_write.lower() == "y" or over_write.lower() == "yes":
-        print("  [+] Will not over write file.")
+        print("  [+] Overwriting file...")
         break
       else:
         print("  [+] Please answer 'yes' or 'no'.")
