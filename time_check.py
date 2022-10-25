@@ -84,7 +84,7 @@ def overwrite(which_node, date_of_consensus,time_of_consensus):
       else:
         print("  [+] Please answer 'yes' or 'no'.")
         continue
-    else:
+    elif file_exist == False:
       print("%s file does not exist" % which_node)
       return "does not exist"
 
