@@ -214,10 +214,8 @@ def check_time(time_of_consensus, collection_length):
   
   
   if int_hour == q:
-    print("got it")
-    tor_proc.kill()
-    sys.exit()
-    os._exit()
+    return True
+  return False
 
 # check if the ping result file already exist, give user the option to skip or overwrite the existing file
 def overwrite(which_node, date_of_consensus,time_of_consensus):
@@ -301,18 +299,19 @@ def main():
   print("  [+] Tor started in the background. Collecting circuit information now...")
   while True:
     line = tor_proc.stdout.readline()
-    print(line.decode().rstrip())
+#     print(line.decode().rstrip())
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       try:
         while True:
-          print("test 2")
-          check_time(time_of_consensus, 1)
-          print("test 3")
+          if check_time(time_of_consensus, 1) == True:
+            print("  [+] It's a new hour, consensus is changed, please run the program again.") 
+            tor_proc.kill()
+            sys.exit(0)
+            os._exit(0)
+            break
           change_circuit()
-          print("test 4")
           time.sleep(1)
           record_circuit(date_of_consensus,time_of_consensus)
-          print("test 5")
           time.sleep(1)
       except KeyboardInterrupt:
         print("[+] Progress manually stopped, gracefully existing...")
