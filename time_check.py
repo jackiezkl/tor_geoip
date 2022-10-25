@@ -107,11 +107,12 @@ if __name__ == "__main__":
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
   
-  guard_thread.start()
-  guard_thread.join()
-  
-  middle_thread.start()
-  middle_thread.join()
-  
   exit_thread.start()
   exit_thread.join()
+
+  guard_thread.start()
+  guard_thread.join()
+
+  middle_thread.start()
+  middle_thread.join()
+
