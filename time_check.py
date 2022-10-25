@@ -108,9 +108,10 @@ if __name__ == "__main__":
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
   
   guard_thread.start()
-  middle_thread.start()
-  exit_thread.start()
-  
   guard_thread.join()
+  
+  middle_thread.start()
   middle_thread.join()
+  
+  exit_thread.start()
   exit_thread.join()
