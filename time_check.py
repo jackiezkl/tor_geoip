@@ -84,9 +84,9 @@ def overwrite(which_node, date_of_consensus,time_of_consensus):
       else:
         print("  [+] Please answer 'yes' or 'no'.")
         continue
-    elif file_exist == False:
-      print("%s file does not exist" % which_node)
-      return "does not exist"
+  elif file_exist == False:
+    print("%s file does not exist" % which_node)
+    return "does not exist"
 
 class pingThread (threading.Thread):
   def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus):
