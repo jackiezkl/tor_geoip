@@ -68,17 +68,17 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
   result_fill.close()
   print("  [+] Done pinging %s! Please check file data/%s-%s-ping_%s_result.csv" % (which_node,date_of_consensus,
                                                                                     time_of_consensus,which_node))
-def over_write(which_node, date_of_consensus,time_of_consensus):
+def overwrite(which_node, date_of_consensus,time_of_consensus):
   result_filepath = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_'+which_node+'_result.csv'
   file_exist = exists(result_filepath)
   if file_exist == True:
     while True:
-      over_write = input("  [+] The "+which_node+" ping result file already exist, overwrite? (y/n):")
-      if over_write.lower() == "n" or over_write.lower() == "no":
-        print("  [+] Will not over write file.")
+      user_decision = input("  [+] The "+which_node+" ping result file already exist, overwrite? (y/n):")
+      if user_decision.lower() == "n" or user_decision.lower() == "no":
+        print("  [+] Will not overwrite file.")
         break
-      elif over_write.lower() == "y" or over_write.lower() == "yes":
-        print("  [+] Overwriting file...")
+      elif user_decision.lower() == "y" or user_decision.lower() == "yes":
+        print("  [+] Will overwrite file...")
         return "yes"
         break
       else:
@@ -102,7 +102,6 @@ class pingThread (threading.Thread):
     try:
       node_ping(self.path,self.option,self.date,self.time)
     except KeyboardInterrupt:
-      print("  [+] Manually stopped.")
       pass
 
 if __name__ == "__main__":
@@ -114,9 +113,9 @@ if __name__ == "__main__":
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
 
-  guard_flag = over_write("guard",date_of_consensus,time_of_consensus)
-  middle_flag = over_write("middle",date_of_consensus,time_of_consensus)
-  exit_flag = over_write("exit",date_of_consensus,time_of_consensus)
+  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
+  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
+  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
 
   if guard_flag == "yes":
     guard_thread.start()
@@ -138,5 +137,6 @@ if __name__ == "__main__":
     middle_thread.join()
     exit_thread.join()
   except (RuntimeError,KeyboardInterrupt):
+    print("  [+] Manually stopped!")
     pass
   print("done!")
