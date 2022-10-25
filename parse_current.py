@@ -161,24 +161,26 @@ def config_tor(date_of_consensus,time_of_consensus):
     tor_config.write('ClientOnly 1')
     
   tor_config.close()
-  
+
+# another country origin check, but only returns the country code
 def geo_country_iso_lookup(ip_address):
   record = geoip_reader.city(ip_address)
   if record is None:
       return ("unknown")
   return (record.country.iso_code)
 
+# to have tor start a new circuit, it will only change the middle and exit relays
 def change_circuit():
   controller = Controller.from_port(port=9051)
   controller.authenticate()
   print("  [+] Tor is changing circuit...")
   try:
     controller.new_circuit()
-#     controller.signal(Signal.NEWNYM)
   except Exception as e:
     print("Error creating new circuit")
   controller.close()
 
+# record the circuit history
 def record_circuit(date_of_consensus,time_of_consensus):
   circuit_csv_filename = 'data/%s-%s-circuit_info.csv' % (date_of_consensus,time_of_consensus)
   csv = open(circuit_csv_filename, 'w+')
@@ -202,7 +204,7 @@ def record_circuit(date_of_consensus,time_of_consensus):
         country = geo_country_iso_lookup(address)
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
-        
+
 def main():
   start_time = time.perf_counter()
   download_consensus()
