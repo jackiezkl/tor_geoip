@@ -84,6 +84,8 @@ def over_write(which_node, date_of_consensus,time_of_consensus):
       else:
         print("  [+] Please answer 'yes' or 'no'.")
         continue
+    else:
+      return "does not exist"
 
 class pingThread (threading.Thread):
   def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus):
@@ -110,17 +112,17 @@ if __name__ == "__main__":
 
   if over_write("guard",date_of_consensus,time_of_consensus) == "yes":
     guard_thread.start()
-  else:
+  elif over_write("guard",date_of_consensus,time_of_consensus) == "does not exist":
     guard_thread.start()
 
   if over_write("middle",date_of_consensus,time_of_consensus) == "yes":
     middle_thread.start()
-  else:
+  elif over_write("middle",date_of_consensus,time_of_consensus) == "does not exist"::
     middle_thread.start()
 
   if over_write("exit",date_of_consensus,time_of_consensus) == "yes":
     exit_thread.start()
-  else:
+  elif over_write("exit",date_of_consensus,time_of_consensus) == "does not exist"::
     exit_thread.start()
 
   guard_thread.join()
