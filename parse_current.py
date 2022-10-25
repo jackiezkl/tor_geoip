@@ -235,8 +235,8 @@ def overwrite(which_node, date_of_consensus,time_of_consensus):
       else:
         print("  [+] Please answer 'yes' or 'no'.")
         continue
-    else:
-      return "does not exist"
+  elif file_exist == False:
+    return "does not exist"
 
 def main():
   start_time = time.perf_counter()
