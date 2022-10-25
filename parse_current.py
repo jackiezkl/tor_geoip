@@ -218,6 +218,26 @@ def check_time(time_of_consensus, collection_length):
     sys.exit()
     os._exit()
 
+# check if the ping result file already exist, give user the option to skip or overwrite the existing file
+def overwrite(which_node, date_of_consensus,time_of_consensus):
+  result_filepath = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_'+which_node+'_result.csv'
+  file_exist = exists(result_filepath)
+  if file_exist == True:
+    while True:
+      user_decision = input("  [+] The "+which_node+" ping result file already exist, overwrite? (y/n):")
+      if user_decision.lower() == "n" or user_decision.lower() == "no":
+        print("  [+] Will not overwrite file.")
+        break
+      elif user_decision.lower() == "y" or user_decision.lower() == "yes":
+        print("  [+] Will overwrite file...")
+        return "yes"
+        break
+      else:
+        print("  [+] Please answer 'yes' or 'no'.")
+        continue
+    else:
+      return "does not exist"
+
 def main():
   start_time = time.perf_counter()
   download_consensus()
@@ -238,19 +258,37 @@ def main():
   guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
-  
-  guard_thread.start()
-  middle_thread.start()
-  exit_thread.start()
-  
-  guard_thread.join()
-  middle_thread.join()
-  exit_thread.join()
+
+  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
+  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
+  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
+
+  if guard_flag == "yes":
+    guard_thread.start()
+  elif guard_flag == "does not exist":
+    guard_thread.start()
+
+  if middle_flag == "yes":
+    middle_thread.start()
+  elif middle_flag == "does not exist":
+    middle_thread.start()
+
+  if exit_flag == "yes":
+    exit_thread.start()
+  elif exit_flag == "does not exist":
+    exit_thread.start()
+
+  try:
+    guard_thread.join()
+    middle_thread.join()
+    exit_thread.join()
+  except (RuntimeError,KeyboardInterrupt):
+    pass
 
   end_time = time.perf_counter()
   
   difference = end_time - start_time
-  print("  [+] Done pinging! Total time spent: %s seconds" % str(difference))
+  print("  [+] Finished operation! Total time spent: %s seconds" % str(difference))
   
   print("  [+] Generating new tor config file...")
   config_tor(date_of_consensus, time_of_consensus)
