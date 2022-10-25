@@ -13,8 +13,21 @@ def check_time(time_of_consensus, collection_length):
     sys.exit()
     os._exit()
 
-if __name__=="__main__":
-  while True:
-    check_time("02-00-00",1)
-    time.sleep(1)
+def check(i):
+  if i == 10:
+    return "F"
+  else:
+    print(i)
+    return "T"
+    
+if __name__ == "__main_":
+  i = 0
+  l = "T"
+  while l == "T":
+    l = check(i)
+    i+=1
+# if __name__=="__main__":
+#   while True:
+#     check_time("02-00-00",1)
+#     time.sleep(1)
     
