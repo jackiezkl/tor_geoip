@@ -205,6 +205,19 @@ def record_circuit(date_of_consensus,time_of_consensus):
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
+# check the current utc hour, stops at collection_length (1 or 3 hours of collection time)
+def check_time(time_of_consensus, collection_length):
+  hour = time_of_consensus.split("-")
+  int_hour = (int(hour[0])+collection_length)%24
+  q = datetime.utcnow().hour
+  
+  
+  if int_hour == q:
+    print("got it")
+    tor_proc.kill()
+    sys.exit()
+    os._exit()
+
 def main():
   start_time = time.perf_counter()
   download_consensus()
@@ -252,6 +265,7 @@ def main():
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       try:
         while True:
+          check_time(time_of_consensus, 1)
           change_circuit()
           time.sleep(1)
           record_circuit(date_of_consensus,time_of_consensus)
