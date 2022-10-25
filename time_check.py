@@ -137,6 +137,4 @@ if __name__ == "__main__":
     middle_thread.join()
     exit_thread.join()
   except (RuntimeError,KeyboardInterrupt):
-    print("  [+] Manually stopped!")
     pass
-  print("done!")
