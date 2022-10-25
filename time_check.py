@@ -1,3 +1,5 @@
+import subprocess
+
 tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
   print("  [+] Tor started in the background. Collecting circuit information now...")
   while True:
