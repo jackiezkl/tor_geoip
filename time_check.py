@@ -120,16 +120,19 @@ if __name__ == "__main__":
   if guard_flag == "yes":
     guard_thread.start()
   elif guard_flag == "does not exist":
+    print("start")
     guard_thread.start()
 
   if middle_flag == "yes":
     middle_thread.start()
   elif middle_flag == "does not exist":
+    print("start 2")
     middle_thread.start()
 
   if exit_flag == "yes":
     exit_thread.start()
   elif exit_flag == "does not exist":
+    print("start 3")
     exit_thread.start()
 
   try:
