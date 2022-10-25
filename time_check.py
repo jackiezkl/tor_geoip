@@ -76,7 +76,6 @@ def over_write(which_node, date_of_consensus,time_of_consensus):
       over_write = input("  [+] The "+which_node+" ping result file already exist, overwrite? (y/n):")
       if over_write.lower() == "n" or over_write.lower() == "no":
         print("  [+] Will not over write file.")
-        return "no"
         break
       elif over_write.lower() == "y" or over_write.lower() == "yes":
         print("  [+] Overwriting file...")
