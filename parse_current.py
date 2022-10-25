@@ -301,13 +301,18 @@ def main():
   print("  [+] Tor started in the background. Collecting circuit information now...")
   while True:
     line = tor_proc.stdout.readline()
+    print("test 1")
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       try:
         while True:
+          print("test 2")
           check_time(time_of_consensus, 1)
+          print("test 3")
           change_circuit()
+          print("test 4")
           time.sleep(1)
           record_circuit(date_of_consensus,time_of_consensus)
+          print("test 5")
           time.sleep(1)
       except KeyboardInterrupt:
         print("[+] Progress manually stopped, gracefully existing...")
