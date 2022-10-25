@@ -1,5 +1,6 @@
 from datetime import datetime
 import time,threading
+from ping3 import ping
 
 # def check_time(time_of_consensus, collection_length):
 #   hour = time_of_consensus.split("-")
@@ -30,6 +31,43 @@ import time,threading
 #   while True:
 #     check_time("02-00-00",1)
 #     time.sleep(1)
+def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
+  if which_node == 'guard':
+    node = 'G'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv'
+  elif which_node == 'middle':
+    node = 'M'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv'
+  elif which_node == 'exit':
+    node = 'E'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv'
+
+  result_fill = open(ping_result_filename, 'w+')
+  result_fill.write('nickname,fingerprint,ip,latency\n')
+
+  with open(path_to_file) as latest_relays:
+    heading = next(latest_relays)
+
+    relay_reader = csv.reader(latest_relays)
+
+    for row in relay_reader:
+      line = row
+      if node in line[2]:
+        if line[6] == 'US':
+          latency = ping(line[3], unit='ms')
+          if latency is None:
+            continue
+          elif latency < 100:
+            try:
+              result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+            except Exception:
+              continue
+
+  latest_relays.close()
+  result_fill.close()
+  print("  [+] Done pinging %s! Please check file data/%s-%s-ping_%s_result.csv" % (which_node,date_of_consensus,
+                                                                                    time_of_consensus,which_node))
+
 class pingThread (threading.Thread):
   def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus):
     threading.Thread.__init__(self)
@@ -43,6 +81,7 @@ class pingThread (threading.Thread):
   def run(self):
     print("  [+] Pinging US %s nodes..." % self.option)
     node_ping(self.path,self.option,self.date,self.time)
+
 if __name__ == "__main__":
   date_of_consensus = "2022-10-25"
   time_of_consensus = "03-00-00"
