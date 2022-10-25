@@ -105,17 +105,19 @@ if __name__ == "__main__":
   time_of_consensus = "03-00-00"
   node_file_path = "data/2022-10-25-03-00-00-all_node_info.csv"
 
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
+  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
+
   if over_write("guard",date_of_consensus,time_of_consensus) == "yes":
-    guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
     guard_thread.start()
-    guard_thread.join()
 
   if over_write("middle",date_of_consensus,time_of_consensus) == "yes":
-    middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
     middle_thread.start()
-    middle_thread.join()
 
   if over_write("exit",date_of_consensus,time_of_consensus) == "yes":
-    exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
     exit_thread.start()
-    exit_thread.join()
+
+  guard_thread.join()
+  middle_thread.join()
+  exit_thread.join()
