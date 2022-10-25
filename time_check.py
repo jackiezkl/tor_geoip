@@ -111,11 +111,17 @@ if __name__ == "__main__":
 
   if over_write("guard",date_of_consensus,time_of_consensus) == "yes":
     guard_thread.start()
+  else:
+    guard_thread.start()
 
   if over_write("middle",date_of_consensus,time_of_consensus) == "yes":
     middle_thread.start()
+  else:
+    middle_thread.start()
 
   if over_write("exit",date_of_consensus,time_of_consensus) == "yes":
+    exit_thread.start()
+  else:
     exit_thread.start()
 
   guard_thread.join()
