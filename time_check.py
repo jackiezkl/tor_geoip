@@ -13,9 +13,6 @@ def check_time(time_of_consensus, collection_length):
   else:
     print("not yet")
     time.sleep(30)
-    continue
-  
-
 
 if __name__=="__main__":
   while True:
