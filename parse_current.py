@@ -301,7 +301,7 @@ def main():
   print("  [+] Tor started in the background. Collecting circuit information now...")
   while True:
     line = tor_proc.stdout.readline()
-    print("test 1")
+    print(line.decode()rstrip())
     if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
       try:
         while True:
