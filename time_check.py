@@ -46,7 +46,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
   does_file_exist = exists(ping_result_filename)
   if does_file_exist == True:
     while True:
-      over_write = input("The ping file already exist, overwrite? (y/n)")
+      over_write = input("  [+] The ping file already exist, overwrite? (y/n):")
       if over_write.lower() == "n" or over_write.lower() == "no":
         print("  [+] Will not over write file.")
         return
