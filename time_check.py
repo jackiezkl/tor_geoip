@@ -12,8 +12,6 @@ def check_time(time_of_consensus, collection_length):
     tor_proc.kill()
     sys.exit()
     os._exit()
-  else:
-    print("not yet")
 
 if __name__=="__main__":
   while True:
