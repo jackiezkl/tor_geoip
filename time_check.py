@@ -99,7 +99,10 @@ class pingThread (threading.Thread):
     self.time = time_of_consensus
   def run(self):
     print("  [+] Pinging US %s nodes..." % self.option)
-    node_ping(self.path,self.option,self.date,self.time)
+    try:
+      node_ping(self.path,self.option,self.date,self.time)
+    except KeyboardInterrupt:
+      print("  [+] Manually stopped.")
 
 if __name__ == "__main__":
   date_of_consensus = "2022-10-25"
