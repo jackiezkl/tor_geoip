@@ -105,7 +105,7 @@ if __name__ == "__main__":
   time_of_consensus = "03-00-00"
   node_file_path = "data/2022-10-25-03-00-00-all_node_info.csv"
 
-  if over_write("guard",date_of_consensus,time_of_consensus) == "yes):
+  if over_write("guard",date_of_consensus,time_of_consensus) == "yes":
     guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
     guard_thread.start()
     guard_thread.join()
