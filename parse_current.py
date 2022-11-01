@@ -106,6 +106,10 @@ def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
       flag += "E"
     if stem.Flag.HSDIR in desc.flags:
       flag += "H"
+    if stem.Flag.FAST in desc.flags:
+      flag += "F"
+    if stem.Flag.RUNNING in desc.flags:
+      flag += "R"
 
     csv_fill.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
                                                    desc.fingerprint,flag,desc.address,desc.or_port,
