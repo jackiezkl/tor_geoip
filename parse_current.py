@@ -259,11 +259,11 @@ def main():
   node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
   guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
-  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
+#   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
 
   guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
-  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
+#   middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
   exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
 
   if guard_flag == "yes":
@@ -271,10 +271,10 @@ def main():
   elif guard_flag == "does not exist":
     guard_thread.start()
 
-  if middle_flag == "yes":
-    middle_thread.start()
-  elif middle_flag == "does not exist":
-    middle_thread.start()
+#   if middle_flag == "yes":
+#     middle_thread.start()
+#   elif middle_flag == "does not exist":
+#     middle_thread.start()
 
   if exit_flag == "yes":
     exit_thread.start()
@@ -283,7 +283,7 @@ def main():
 
   try:
     guard_thread.join()
-    middle_thread.join()
+#     middle_thread.join()
     exit_thread.join()
   except (RuntimeError,KeyboardInterrupt):
     pass
