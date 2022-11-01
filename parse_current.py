@@ -146,6 +146,26 @@ def extract_relay_fingerprints(path_to_ping_result_file):
   return rows
 
 # write the new torrc file, and move it to place
+def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
+  entries = ''
+  middles = 'BE7BAA69D14866E551990192D298F6363BDB313B'
+  exits = ''
+  
+  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv')
+  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
+  
+  with open('data/torrc', 'w') as tor_config:
+    tor_config.write('SOCKSPort 172.17.0.1:9050\n')
+    tor_config.write('\n')
+    tor_config.write('EntryNodes '+entries+'\n')
+    tor_config.write('MiddleNodes '+middles+'\n')
+    tor_config.write('ExitNodes '+exits+'\n')
+    tor_config.write('\n')
+    tor_config.write('ControlPort 9051\n')
+    tor_config.write('ClientOnly 1')
+    
+  tor_config.close()
+
 def config_tor(date_of_consensus,time_of_consensus):
   entries = ''
   middles = ''
@@ -241,7 +261,7 @@ def overwrite(which_node, date_of_consensus,time_of_consensus):
   elif file_exist == False:
     return "does not exist"
 
-def main():
+def main_no_middle():
   start_time = time.perf_counter()
   download_consensus()
 
@@ -323,6 +343,89 @@ def main():
         sys.exit(0)
         os._exit(0)
 
+
+def main():
+  start_time = time.perf_counter()
+  download_consensus()
+
+  fifth_line = linecache.getline('/tmp/consensus_dump',4).split()
+  date_of_consensus = fifth_line[1]
+  time_of_consensus = fifth_line[2].replace(":", "-")
+  commd = "cp /tmp/consensus_dump ./data/"+date_of_consensus+"-"+time_of_consensus+"-consensus"
+  os.system(commd)
+
+  path_to_file = '/tmp/consensus_dump'
+  print("  [+] Reading consensus file...")
+  consensus = next(parse_file(path_to_file,descriptor_type = 'network-status-consensus-3 1.0',document_handler = DocumentHandler.DOCUMENT))
+
+  print("  [+] Generating the relay information...")
+  node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
+  
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
+  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
+
+  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
+  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
+  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
+
+  if guard_flag == "yes":
+    guard_thread.start()
+  elif guard_flag == "does not exist":
+    guard_thread.start()
+
+  if middle_flag == "yes":
+    middle_thread.start()
+  elif middle_flag == "does not exist":
+    middle_thread.start()
+
+  if exit_flag == "yes":
+    exit_thread.start()
+  elif exit_flag == "does not exist":
+    exit_thread.start()
+
+  try:
+    guard_thread.join()
+    middle_thread.join()
+    exit_thread.join()
+  except (RuntimeError,KeyboardInterrupt):
+    pass
+
+  end_time = time.perf_counter()
+  
+  difference = end_time - start_time
+  print("  [+] Finished operation! Total time spent: %s seconds" % str(difference))
+  
+  print("  [+] Generating new tor config file...")
+  config_tor(date_of_consensus, time_of_consensus)
+  
+  print("  [+] All done! New tor configure file has generated.")
+  print("  [+] Starting tor with the new config...")
+  
+  tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+  print("  [+] Tor started in the background. Collecting circuit information now...")
+  while True:
+    line = tor_proc.stdout.readline()
+#     print(line.decode().rstrip())
+    if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
+      try:
+        while True:
+          if check_time(time_of_consensus, 1) == True:
+            print("  [+] It's a new hour, consensus is changed, please run the program again.") 
+            tor_proc.kill()
+            sys.exit(0)
+            os._exit(0)
+            break
+          change_circuit()
+          time.sleep(1)
+          record_circuit(date_of_consensus,time_of_consensus)
+          time.sleep(1)
+      except KeyboardInterrupt:
+        print("[+] Progress manually stopped, gracefully existing...")
+        tor_proc.kill()
+        sys.exit(0)
+        os._exit(0)
+
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
 #   geoip_reader = geoip2.database.Reader('./%s' % GEOIP_FILENAME)
@@ -330,5 +433,14 @@ if __name__=='__main__':
     #os.system("rm -R ./data")
     os.mkdir("./data")
   os.system("chmod 777 data")
-  
-  main()
+
+  user_decision = input("  [+] Do you want to ping the middle nodes? (y/n):")
+  if user_decision.lower() == "n" or user_decision.lower() == "no":
+    print("  [+] Will not ping middle nodes.")
+    main_no_middle()
+  elif user_decision.lower() == "y" or user_decision.lower() == "yes":
+    print("  [+] Will ping middle nodes.")
+    main()
+  else:
+    print("  [+] Please answer 'yes' or 'no'.")
+    continue
