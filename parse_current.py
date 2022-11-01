@@ -430,9 +430,6 @@ if __name__=='__main__':
   if user_decision.lower() == "n" or user_decision.lower() == "no":
     print("  [+] Will not ping middle nodes.")
     main_no_middle()
-  elif user_decision.lower() == "y" or user_decision.lower() == "yes":
-    print("  [+] Will ping middle nodes.")
-    main()
   else:
-    print("  [+] Please answer 'yes' or 'no'.")
-    
+    print("  [+] Will ping middle nodes.")
+    main() 
