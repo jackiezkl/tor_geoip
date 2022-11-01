@@ -56,7 +56,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
 
     for row in relay_reader:
       line = row
-      if node in line[2]:
+      if node in line[2] and "F" in line[2] and "R" in line[2]:
         if line[6] == 'US':
           latency = ping(line[3], unit='ms')
           if latency is None:
