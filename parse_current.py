@@ -57,15 +57,18 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
     for row in relay_reader:
       line = row
       if node in line[2] and "F" in line[2] and "R" in line[2]:
-        if line[6] == 'US':
-          latency = ping(line[3], unit='ms')
-          if latency is None:
-            continue
-          elif latency < 100:
-            try:
-              result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
-            except Exception:
+        if "B" in line[2]:
+          pass
+        else:
+          if line[6] == 'US':
+            latency = ping(line[3], unit='ms')
+            if latency is None:
               continue
+            elif latency < 100:
+              try:
+                result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+              except Exception:
+                continue
 
   latest_relays.close()
   result_fill.close()
@@ -76,7 +79,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
 def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
     if record is None:
-        return (False, False)
+        return (False, False, False)
     return (record.country.iso_code, record.city.name, record.subdivisions.most_specific.name)
   
 # create the csv file to put the processed consensus info
@@ -98,22 +101,24 @@ def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
 
     if city is False and country is False and state is False:
       pass
-    
-    flag = "M"
-    if stem.Flag.GUARD in desc.flags:
-      flag += "G"
-    if stem.Flag.EXIT in desc.flags:
-      flag += "E"
-    if stem.Flag.HSDIR in desc.flags:
-      flag += "H"
-    if stem.Flag.FAST in desc.flags:
-      flag += "F"
-    if stem.Flag.RUNNING in desc.flags:
-      flag += "R"
+    else: 
+      flag = "M"
+      if stem.Flag.GUARD in desc.flags:
+        flag += "G"
+      if stem.Flag.EXIT in desc.flags:
+        flag += "E"
+      if stem.Flag.HSDIR in desc.flags:
+        flag += "H"
+      if stem.Flag.FAST in desc.flags:
+        flag += "F"
+      if stem.Flag.RUNNING in desc.flags:
+        flag += "R"
+      if stem.Flag.BADEXIT in desc.flags:
+        flag += "B"
 
-    csv_fill.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
-                                                   desc.fingerprint,flag,desc.address,desc.or_port,
-                                                   float(desc.bandwidth/1000.0/1000.0),country,city,state))
+      csv_fill.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
+                                                     desc.fingerprint,flag,desc.address,desc.or_port,
+                                                     float(desc.bandwidth/1000.0/1000.0),country,city,state))
   csv_fill.close()
   return node_file_path
 
