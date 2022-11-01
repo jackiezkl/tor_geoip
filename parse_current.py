@@ -155,7 +155,7 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
   
   with open('data/torrc', 'w') as tor_config:
-    tor_config.write('SOCKSPort 172.17.0.1:9050\n')
+    tor_config.write('#SOCKSPort 172.17.0.1:9050\n')
     tor_config.write('\n')
     tor_config.write('EntryNodes '+entries+'\n')
     tor_config.write('MiddleNodes '+middles+'\n')
