@@ -41,7 +41,7 @@ def record_circuit():
         desc = controller.get_network_status(fingerprint, None)
         address = desc.address if desc else 'unknown'
         country = geo_country_iso_lookup(address)
-        print("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
+        print("%s,%s,%s,%s,%s,%s" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
