@@ -171,6 +171,7 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
     
   tor_config.close()
 
+# write the new torrc file, and move it to place
 def config_tor(date_of_consensus,time_of_consensus):
   entries = ''
   middles = ''
@@ -266,6 +267,7 @@ def overwrite(which_node, date_of_consensus,time_of_consensus):
   elif file_exist == False:
     return "does not exist"
 
+# when user choose to not ping middle relay, this function is used
 def main_no_middle():
   start_time = time.perf_counter()
   download_consensus()
@@ -340,7 +342,7 @@ def main_no_middle():
         sys.exit(0)
         os._exit(0)
 
-
+# when user choose to ping middle relay, this function is used
 def main():
   start_time = time.perf_counter()
   download_consensus()
