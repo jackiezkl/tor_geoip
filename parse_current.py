@@ -64,7 +64,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
             latency = ping(line[3], unit='ms')
             if latency is None:
               continue
-            elif latency < 100:
+            elif latency < 30:
               try:
                 result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
               except Exception:
