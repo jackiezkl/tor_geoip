@@ -12,6 +12,22 @@ from os.path import exists
 GEOIP_FILENAME = "GeoLite2-City.mmdb"
 geoip_reader = None
 
+# acquire the latest consensus
+def download_consensus():
+  downloader = DescriptorDownloader()
+  flag = False
+  while flag == False:
+    try:
+      consensus = downloader.get_consensus(document_handler = DocumentHandler.DOCUMENT).run()[0]
+      print("  [+] Latest Tor censensus file downloaded.")
+      flag = True
+    except Exception:
+      print("  [+] Couldn't download consensus file, trying again...")
+      continue
+    
+  with open('/tmp/consensus_dump', 'w') as descriptor_file:
+    descriptor_file.write(str(consensus))
+
 # ip address lookup for the country, city and state
 def geo_ip_lookup(ip_address):
     record = geoip_reader.city(ip_address)
