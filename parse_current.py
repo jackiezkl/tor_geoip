@@ -153,7 +153,7 @@ def extract_relay_fingerprints(path_to_ping_result_file):
 # write the new torrc file, and move it to place
 def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   entries = ''
-  middles = 'BE7BAA69D14866E551990192D298F6363BDB313B'
+  middles = 'DC2576C15AE9A943D1BB28CB15324D7213F144FA,37B2033DF8CE2067E8ED4569C7AD750D57063CFD,58C2DA6C6C04A392A81239A311143CB8A57B81EA'
   exits = ''
   
   entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv')
