@@ -61,14 +61,17 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
           pass
         else:
           if line[6] == 'US':
-            latency = ping(line[3], unit='ms')
-            if latency is None:
-              continue
-            elif latency < 30:
-              try:
-                result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
-              except Exception:
+            if line[3] == '209.114.126.200' or line[3] == '209.114.126.201' or line[3] == '209.114.126.202':
+              pass
+            else:
+              latency = ping(line[3], unit='ms')
+              if latency is None:
                 continue
+              elif latency < 30:
+                try:
+                  result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+                except Exception:
+                  continue
 
   latest_relays.close()
   result_fill.close()
