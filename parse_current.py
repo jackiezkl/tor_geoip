@@ -39,13 +39,13 @@ class pingThread (threading.Thread):
 def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,target_latency):
   if which_node == 'guard':
     node = 'G'
-    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv'
   elif which_node == 'middle':
     node = 'M'
-    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv'
   elif which_node == 'exit':
     node = 'E'
-    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv'
+    ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv'
 
   result_fill = open(ping_result_filename, 'w+')
   result_fill.write('nickname,fingerprint,ip,latency\n')
@@ -55,15 +55,13 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
 
     relay_reader = csv.reader(latest_relays)
 
-#     for row in relay_reader:
-#       line = row
     for line in relay_reader:
       if node in line[2] and "F" in line[2] and "R" in line[2]:
         if "B" in line[2]:
           pass
         else:
           if line[6] == 'US':
-            if line[3] == '209.114.126.200' or line[3] == '209.114.126.201' or line[3] == '209.114.126.202':
+            if line[0] == 'jackinthebox' or line[3] == 'jackinthebox2' or line[3] == 'jackinthebox3':
               pass
             else:
               latency = ping(line[3], unit='ms')
@@ -77,8 +75,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
 
   latest_relays.close()
   result_fill.close()
-  print("  [+] Done pinging %s! Please check file data/%s-%s-ping_%s_result.csv" % (which_node,date_of_consensus,
-                                                                                    time_of_consensus,which_node))
+  print("  [+] Done pinging %s! Please check file data/%s" % (which_node,ping_result_filename))
 
 # ip address lookup for the country, city and state
 def geo_ip_lookup(ip_address):
