@@ -20,7 +20,7 @@ geoip_reader = None
 
 #multi-thread class
 class pingThread (threading.Thread):
-  def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus):
+  def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus,target_latency):
     threading.Thread.__init__(self)
     self.threadID = threadID
     self.name = name
@@ -29,13 +29,14 @@ class pingThread (threading.Thread):
     self.option = node_option
     self.date = date_of_consensus
     self.time = time_of_consensus
+    self.target_latency = target_latency
   def run(self):
     print("  [+] Pinging US %s nodes..." % self.option)
-    node_ping(self.path,self.option,self.date,self.time)
+    node_ping(self.path,self.option,self.date,self.time,self.target_latency)
 
 #ping each node with options of guard, middle, or exit, then
 #put into file if the round trip time is less than 100 ms.
-def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
+def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,target_latency):
   if which_node == 'guard':
     node = 'G'
     ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv'
@@ -67,7 +68,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus):
               latency = ping(line[3], unit='ms')
               if latency is None:
                 continue
-              elif latency < 30:
+              elif latency < target_latency:
                 try:
                   result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
                 except Exception:
@@ -291,8 +292,8 @@ def main_no_middle():
   guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
 
-  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
-  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
+  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus,20)
+  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus,30)
 
   if guard_flag == "yes":
     guard_thread.start()
@@ -367,9 +368,9 @@ def main():
   middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus)
   exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus)
 
-  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
-  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
-  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
+  guard_flag = overwrite("guard",date_of_consensus,time_of_consensus,30)
+  middle_flag = overwrite("middle",date_of_consensus,time_of_consensus,30)
+  exit_flag = overwrite("exit",date_of_consensus,time_of_consensus,30)
 
   if guard_flag == "yes":
     guard_thread.start()
