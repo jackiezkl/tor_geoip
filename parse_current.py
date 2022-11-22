@@ -31,7 +31,7 @@ class pingThread (threading.Thread):
     self.time = time_of_consensus
     self.target_latency = target_latency
   def run(self):
-    print("  [+] Pinging US %s nodes..." % self.option)
+    print("  [+] Pinging US %s nodes with a target latency of %sms..." % self.option,self.target_latency)
     node_ping(self.path,self.option,self.date,self.time,self.target_latency)
 
 #ping each node with options of guard, middle, or exit, then
