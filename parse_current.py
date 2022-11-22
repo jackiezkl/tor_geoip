@@ -31,7 +31,7 @@ class pingThread (threading.Thread):
     self.time = time_of_consensus
     self.target_latency = target_latency
   def run(self):
-    print("  [+] Pinging US %s nodes with a target latency of %sms..." % self.option,self.target_latency)
+    print("  [+] Pinging US %s nodes with a target latency of %sms..." % (self.option, self.target_latency))
     node_ping(self.path,self.option,self.date,self.time,self.target_latency)
 
 #ping each node with options of guard, middle, or exit, then
@@ -55,8 +55,9 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
 
     relay_reader = csv.reader(latest_relays)
 
-    for row in relay_reader:
-      line = row
+#     for row in relay_reader:
+#       line = row
+    for line in relay_reader:
       if node in line[2] and "F" in line[2] and "R" in line[2]:
         if "B" in line[2]:
           pass
