@@ -56,22 +56,31 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
     relay_reader = csv.reader(latest_relays)
 
     for line in relay_reader:
-      if node in line[2] and "F" in line[2] and "R" in line[2]:
-        if "B" in line[2]:
-          pass
-        else:
-          if line[6] == 'US':
-            if line[0] == 'jackinthebox' or line[3] == 'jackinthebox2' or line[3] == 'jackinthebox3':
-              pass
-            else:
-              latency = ping(line[3], unit='ms')
-              if latency is None:
-                continue
-              elif latency < target_latency:
-                try:
-                  result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
-                except Exception:
-                  continue
+      if "B" in line[2]:
+        pass
+      elif line[6] != "US":
+        pass
+      elif line[3] == "jackinthebox" or line[3] == "jackinthebox2" or line[3] == "jackinthebox3":
+        pass
+      elif node == "G" and node in line[2] and "F" in line[2] and "R" in line[2] and "S" in line[2]:
+        latency = ping(line[3], unit='ms')
+        if latency is None:
+          continue
+        elif latency < target_latency:
+          try:
+            result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+          except Exception:
+            continue
+      else:
+        if node in line[2] and "F" in line[2] and "R" in line[2]:
+          latency = ping(line[3], unit='ms')
+          if latency is None:
+            continue
+          elif latency < target_latency:
+            try:
+              result_fill.write("%s,%s,%s,%s\n" % (line[0],line[1],line[3],str(latency)))
+            except Exception:
+              continue
 
   latest_relays.close()
   result_fill.close()
