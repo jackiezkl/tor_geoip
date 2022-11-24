@@ -329,31 +329,36 @@ def main_no_middle():
   config_tor_fixed_middle(date_of_consensus, time_of_consensus)
   
   print("  [+] All done! New tor configure file has generated.")
-  print("  [+] Starting tor with the new config...")
-  
-  tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
-  print("  [+] Tor started in the background. Collecting circuit information now...")
-  while True:
-    line = tor_proc.stdout.readline()
-#     print(line.decode().rstrip())
-    if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
-      try:
-        while True:
-          if check_time(time_of_consensus, 1) == True:
-            print("  [+] It's a new hour, consensus is changed, please run the program again.") 
-            tor_proc.kill()
-            sys.exit(0)
-            os._exit(0)
-            break
-          change_circuit()
-          time.sleep(1)
-          record_circuit(date_of_consensus,time_of_consensus)
-          time.sleep(1)
-      except KeyboardInterrupt:
-        print("[+] Progress manually stopped, gracefully existing...")
-        tor_proc.kill()
-        sys.exit(0)
-        os._exit(0)
+
+  user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
+  if user_decision2.lower() == "n" or user_decision.lower() == "no":
+    print("  [+] No is selected. Bye bye!")
+  else:
+    print("  [+] Starting tor with the new config...")
+
+    tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+    print("  [+] Tor started in the background. Collecting circuit information now...")
+    while True:
+      line = tor_proc.stdout.readline()
+  #     print(line.decode().rstrip())
+      if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
+        try:
+          while True:
+            if check_time(time_of_consensus, 1) == True:
+              print("  [+] It's a new hour, consensus is changed, please run the program again.") 
+              tor_proc.kill()
+              sys.exit(0)
+              os._exit(0)
+              break
+            change_circuit()
+            time.sleep(1)
+            record_circuit(date_of_consensus,time_of_consensus)
+            time.sleep(1)
+        except KeyboardInterrupt:
+          print("[+] Progress manually stopped, gracefully existing...")
+          tor_proc.kill()
+          sys.exit(0)
+          os._exit(0)
 
 # when user choose to ping middle relay, this function is used
 def main():
@@ -412,31 +417,36 @@ def main():
   config_tor(date_of_consensus, time_of_consensus)
   
   print("  [+] All done! New tor configure file has generated.")
-  print("  [+] Starting tor with the new config...")
   
-  tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
-  print("  [+] Tor started in the background. Collecting circuit information now...")
-  while True:
-    line = tor_proc.stdout.readline()
-#     print(line.decode().rstrip())
-    if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
-      try:
-        while True:
-          if check_time(time_of_consensus, 1) == True:
-            print("  [+] It's a new hour, consensus is changed, please run the program again.") 
-            tor_proc.kill()
-            sys.exit(0)
-            os._exit(0)
-            break
-          change_circuit()
-          time.sleep(1)
-          record_circuit(date_of_consensus,time_of_consensus)
-          time.sleep(1)
-      except KeyboardInterrupt:
-        print("[+] Progress manually stopped, gracefully existing...")
-        tor_proc.kill()
-        sys.exit(0)
-        os._exit(0)
+  user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
+  if user_decision2.lower() == "n" or user_decision.lower() == "no":
+    print("  [+] No is selected. Bye bye!")
+  else:  
+    print("  [+] Starting tor with the new config...")
+
+    tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+    print("  [+] Tor started in the background. Collecting circuit information now...")
+    while True:
+      line = tor_proc.stdout.readline()
+  #     print(line.decode().rstrip())
+      if "Bootstrapped 100% (done): Done" in line.decode().rstrip():
+        try:
+          while True:
+            if check_time(time_of_consensus, 1) == True:
+              print("  [+] It's a new hour, consensus is changed, please run the program again.") 
+              tor_proc.kill()
+              sys.exit(0)
+              os._exit(0)
+              break
+            change_circuit()
+            time.sleep(1)
+            record_circuit(date_of_consensus,time_of_consensus)
+            time.sleep(1)
+        except KeyboardInterrupt:
+          print("[+] Progress manually stopped, gracefully existing...")
+          tor_proc.kill()
+          sys.exit(0)
+          os._exit(0)
 
 if __name__=='__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
