@@ -45,6 +45,7 @@ def record_circuit():
         print("%s,%s,%s,%s,%s,%s" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
 
         csv.write("%s,%s,%s,%s,%s,%s\n" % (circ.id, circ.purpose, fingerprint, nickname, address, country))
+  csv.close()
 
 if __name__ == '__main__':
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
