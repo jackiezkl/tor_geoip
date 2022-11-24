@@ -169,8 +169,8 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   middles = 'DC2576C15AE9A943D1BB28CB15324D7213F144FA,37B2033DF8CE2067E8ED4569C7AD750D57063CFD,58C2DA6C6C04A392A81239A311143CB8A57B81EA'
   exits = ''
   
-  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv')
-  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
+  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
+  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
   with open('data/torrc', 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -190,9 +190,9 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = ''
   exits = ''
   
-  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_guard_result.csv')
-  middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_middle_result.csv')
-  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-ping_exit_result.csv')
+  entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
+  middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv')
+  exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
   with open('data/torrc', 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
