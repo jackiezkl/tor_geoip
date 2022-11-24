@@ -174,10 +174,10 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   
   with open('data/torrc', 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
-    tor_config.write('\n')
-    tor_config.write('ControlPort 9051\n')
+#     tor_config.write('\n')
+#     tor_config.write('ControlPort 9051\n')
 #     tor_config.write('ClientOnly 1')
-    tor_config.write('\n')
+#     tor_config.write('\n')
     tor_config.write('EntryNodes '+entries+'\n')
     tor_config.write('MiddleNodes '+middles+'\n')
     tor_config.write('ExitNodes '+exits+'\n')
@@ -196,10 +196,10 @@ def config_tor(date_of_consensus,time_of_consensus):
   
   with open('data/torrc', 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
-    tor_config.write('\n')
-    tor_config.write('ControlPort 9051\n')
+#     tor_config.write('\n')
+#     tor_config.write('ControlPort 9051\n')
 #     tor_config.write('ClientOnly 1')
-    tor_config.write('\n')
+#     tor_config.write('\n')
     tor_config.write('EntryNodes '+entries+'\n')
     tor_config.write('MiddleNodes '+middles+'\n')
     tor_config.write('ExitNodes '+exits+'\n')
