@@ -262,7 +262,7 @@ def check_time(time_of_consensus, collection_length):
 
 # check if the ping result file already exist, give user the option to skip or overwrite the existing file
 def overwrite(which_node, date_of_consensus,time_of_consensus):
-  result_filepath = 'data/'+date_of_consensus+'-'+time_of_consensus+'-ping_'+which_node+'_result.csv'
+  result_filepath = 'data/'+date_of_consensus+'-'+time_of_consensus+'-'+which_node+'_ping_result.csv'
   file_exist = exists(result_filepath)
   if file_exist == True:
     while True:
