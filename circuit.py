@@ -29,6 +29,7 @@ def record_circuit():
 
   geoip_reader = geoip2.database.Reader('/usr/share/GeoIP/%s' % GEOIP_FILENAME)
 
+  control_port = input("  [+] Please enter the Control Port number: ")
   with Controller.from_port(port = 9051) as controller:
     controller.authenticate()
 
