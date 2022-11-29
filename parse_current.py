@@ -60,7 +60,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
         pass
       elif line[6] != "US":
         pass
-      elif line[3] == "jackinthebox" or line[3] == "jackinthebox2" or line[3] == "jackinthebox3":
+      elif line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
         pass
       elif node == "G" and node in line[2] and "F" in line[2] and "R" in line[2] and "S" in line[2]:
         latency = ping(line[3], unit='ms')
@@ -172,7 +172,8 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
-  with open('data/torrc', 'w') as tor_config:
+  tor_config_path = "data/"+date_of_consensus+"/torrc"
+  with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
 #     tor_config.write('\n')
 #     tor_config.write('ControlPort 9051\n')
@@ -194,7 +195,8 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
-  with open('data/torrc', 'w') as tor_config:
+  tor_config_path = "data/"+date_of_consensus+"/torrc"
+  with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
 #     tor_config.write('\n')
 #     tor_config.write('ControlPort 9051\n')
