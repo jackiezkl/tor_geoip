@@ -84,7 +84,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
 
   latest_relays.close()
   result_fill.close()
-  print("  [+] Done pinging %s! Please check file data/%s" % (which_node,ping_result_filename))
+  print("  [+] Done pinging %s! Please check file %s" % (which_node,ping_result_filename))
 
 # ip address lookup for the country, city and state
 def geo_ip_lookup(ip_address):
