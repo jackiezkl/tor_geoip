@@ -172,6 +172,7 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
+  os.mkdir(date_of+consensus)
   tor_config_path = "data/"+date_of_consensus+"/torrc"
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -195,6 +196,7 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
   
+  os.mkdir(date_of+consensus)
   tor_config_path = "data/"+date_of_consensus+"/torrc"
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
