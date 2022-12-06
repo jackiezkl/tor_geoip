@@ -57,7 +57,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
     relay_reader = csv.reader(latest_relays)
 
     for line in relay_reader:
-      if "B" in line[2] or line[6] != "US" or line[5] < target_consensus_weight or line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
+      if "B" in line[2] or line[6] != "US" or int(line[5]) < target_consensus_weight or line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
         pass
 #       elif line[6] != "US":
 #         pass
