@@ -99,7 +99,7 @@ def create_csv_file(date_of_consensus,time_of_consensus):
             (date_of_consensus,time_of_consensus)
     csv = open(path_to_all_node_info_csv_file, 'w+')
 
-    csv.write('Name,Fingerprint,Flags,IP,OrPort,BandWidth,CountryCode,City,State\n')
+    csv.write('Name,Fingerprint,Flags,IP,OrPort,ConsensusWeight,CountryCode,City,State\n')
     print("  [+] Created CSV file: %s" % (path_to_all_node_info_csv_file))
     return csv,path_to_all_node_info_csv_file
 
@@ -131,7 +131,7 @@ def generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus):
 
       csv_fill.write("%s,%s,%s,%s,%s,%s,%s,%s,%s\n" % (desc.nickname,
                                                      desc.fingerprint,flag,desc.address,desc.or_port,
-                                                     float(desc.bandwidth/1000.0/1000.0),country,city,state))
+                                                     desc.bandwidth,country,city,state))
   csv_fill.close()
   return node_file_path
 
