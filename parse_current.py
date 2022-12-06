@@ -20,7 +20,7 @@ geoip_reader = None
 
 #multi-thread class
 class pingThread (threading.Thread):
-  def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus,target_latency):
+  def __init__(self, threadID, name, counter, file_path, node_option,date_of_consensus,time_of_consensus,target_latency,target_consensus_weight):
     threading.Thread.__init__(self)
     self.threadID = threadID
     self.name = name
@@ -30,13 +30,14 @@ class pingThread (threading.Thread):
     self.date = date_of_consensus
     self.time = time_of_consensus
     self.target_latency = target_latency
+    self.consensus_weight = target_consensus_weight
   def run(self):
-    print("  [+] Pinging US %s nodes with a target latency of %sms..." % (self.option, self.target_latency))
-    node_ping(self.path,self.option,self.date,self.time,self.target_latency)
+    print("  [+] Pinging US %s nodes with a target latency of %sms and a consensus weight of less than %s..." % (self.option, self.target_latency, self.consensus_weight))
+    node_ping(self.path,self.option,self.date,self.time,self.target_latency,self.consensus_weight)
 
 #ping each node with options of guard, middle, or exit, then
 #put into file if the round trip time is less than 100 ms.
-def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,target_latency):
+def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,target_latency,target_consensus_weight):
   if which_node == 'guard':
     node = 'G'
     ping_result_filename = 'data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv'
@@ -60,7 +61,7 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
         pass
       elif line[6] != "US":
         pass
-      elif line[5] < 5000:
+      elif line[5] < target_consensus_weight:
         pass
       elif line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
         pass
@@ -304,8 +305,8 @@ def main_no_middle():
   print("  [+] Generating the relay information...")
   node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
-  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus, 20)
-  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus, 30)
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus, 20, 5000)
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus, 30, 5000)
 
   guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
   exit_flag = overwrite("exit",date_of_consensus,time_of_consensus)
@@ -384,9 +385,9 @@ def main():
   print("  [+] Generating the relay information...")
   node_file_path = generate_csv(consensus, path_to_file, date_of_consensus, time_of_consensus)
   
-  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus, 30)
-  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus, 30)
-  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus, 30)
+  guard_thread = pingThread(1, "ping guard", 1, node_file_path, "guard",date_of_consensus, time_of_consensus, 30, 5000)
+  middle_thread = pingThread(2, "ping middle", 2, node_file_path, "middle",date_of_consensus, time_of_consensus, 30, 5000)
+  exit_thread = pingThread(3, "ping exit", 3, node_file_path, "exit",date_of_consensus, time_of_consensus, 30, 5000)
 
   guard_flag = overwrite("guard",date_of_consensus,time_of_consensus)
   middle_flag = overwrite("middle",date_of_consensus,time_of_consensus)
