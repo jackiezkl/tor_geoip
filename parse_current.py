@@ -175,7 +175,7 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
 
-  tor_config_path = "data/"+date_of_consensus+"/torrc"+time_of_consensus
+  tor_config_path = "data/"+date_of_consensus+"/torrc_"+time_of_consensus
   os.makedirs(os.path.dirname(tor_config_path), exist_ok=True)
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -199,7 +199,7 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
 
-  tor_config_path = "data/"+date_of_consensus+"/torrc"+time_of_consensus
+  tor_config_path = "data/"+date_of_consensus+"/torrc_"+time_of_consensus
   os.makedirs(os.path.dirname(tor_config_path), exist_ok=True)
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -336,7 +336,7 @@ def main_no_middle():
   config_tor_fixed_middle(date_of_consensus, time_of_consensus)
   print("  [+] All done! New tor configure file has generated.")
 
-  new_tor_config_path = 'data/'+date_of_consensus+'/torrc'+time_of_consensus
+  new_tor_config_path = 'data/'+date_of_consensus+'/torrc_'+time_of_consensus
 
   user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
   if user_decision2.lower() == "n" or user_decision.lower() == "no":
@@ -425,7 +425,7 @@ def main():
   config_tor(date_of_consensus, time_of_consensus)
   print("  [+] All done! New tor configure file has generated.")
   
-  new_tor_config_path = 'data/'+date_of_consensus+'/torrc'+time_of_consensus
+  new_tor_config_path = 'data/'+date_of_consensus+'/torrc_'+time_of_consensus
   
   user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
   if user_decision2.lower() == "n" or user_decision.lower() == "no":
