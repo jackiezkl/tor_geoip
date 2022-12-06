@@ -175,7 +175,7 @@ def config_tor_fixed_middle(date_of_consensus,time_of_consensus):
   entries = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-guard_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
 
-  tor_config_path = "data/"+date_of_consensus+"/torrc"
+  tor_config_path = "data/"+date_of_consensus+"/torrc"+time_of_consensus
   os.makedirs(os.path.dirname(tor_config_path), exist_ok=True)
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -199,7 +199,7 @@ def config_tor(date_of_consensus,time_of_consensus):
   middles = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-middle_ping_result.csv')
   exits = extract_relay_fingerprints('data/'+date_of_consensus+'-'+time_of_consensus+'-exit_ping_result.csv')
 
-  tor_config_path = "data/"+date_of_consensus+"/torrc"
+  tor_config_path = "data/"+date_of_consensus+"/torrc"+time_of_consensus
   os.makedirs(os.path.dirname(tor_config_path), exist_ok=True)
   with open(tor_config_path, 'w') as tor_config:
 #     tor_config.write('SOCKSPort 172.17.0.1:9050\n')
@@ -334,8 +334,9 @@ def main_no_middle():
   
   print("  [+] Generating new tor config file...")
   config_tor_fixed_middle(date_of_consensus, time_of_consensus)
-  
   print("  [+] All done! New tor configure file has generated.")
+
+  new_tor_config_path = 'data/'+date_of_consensus+'/torrc'+time_of_consensus
 
   user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
   if user_decision2.lower() == "n" or user_decision.lower() == "no":
@@ -343,7 +344,7 @@ def main_no_middle():
   else:
     print("  [+] Starting tor with the new config...")
 
-    tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+    tor_proc = subprocess.Popen(['tor','-f',new_tor_config_path],stdout=subprocess.PIPE)
     print("  [+] Tor started in the background. Collecting circuit information now...")
     while True:
       line = tor_proc.stdout.readline()
@@ -422,8 +423,9 @@ def main():
   
   print("  [+] Generating new tor config file...")
   config_tor(date_of_consensus, time_of_consensus)
-  
   print("  [+] All done! New tor configure file has generated.")
+  
+  new_tor_config_path = 'data/'+date_of_consensus+'/torrc'+time_of_consensus
   
   user_decision2 = input("  [+] Do you want to start the tor with new config? (y/n):")
   if user_decision2.lower() == "n" or user_decision.lower() == "no":
@@ -431,7 +433,7 @@ def main():
   else:  
     print("  [+] Starting tor with the new config...")
 
-    tor_proc = subprocess.Popen(['tor','-f','data/torrc'],stdout=subprocess.PIPE)
+    tor_proc = subprocess.Popen(['tor','-f',new_tor_config_path],stdout=subprocess.PIPE)
     print("  [+] Tor started in the background. Collecting circuit information now...")
     while True:
       line = tor_proc.stdout.readline()
