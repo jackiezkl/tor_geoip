@@ -30,10 +30,10 @@ class pingThread (threading.Thread):
     self.date = date_of_consensus
     self.time = time_of_consensus
     self.target_latency = target_latency
-    self.consensus_weight = target_consensus_weight
+    self.target_consensus_weight = target_consensus_weight
   def run(self):
     print("  [+] Pinging US %s nodes with a target latency of %sms and a consensus weight of less than %s..." % (self.option, self.target_latency, self.consensus_weight))
-    node_ping(self.path,self.option,self.date,self.time,self.target_latency,self.consensus_weight)
+    node_ping(self.path,self.option,self.date,self.time,self.target_latency,self.target_consensus_weight)
 
 #ping each node with options of guard, middle, or exit, then
 #put into file if the round trip time is less than 100 ms.
@@ -57,14 +57,14 @@ def node_ping(path_to_file, which_node, date_of_consensus, time_of_consensus,tar
     relay_reader = csv.reader(latest_relays)
 
     for line in relay_reader:
-      if "B" in line[2]:
+      if "B" in line[2] or line[6] != "US" or line[5] < target_consensus_weight or line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
         pass
-      elif line[6] != "US":
-        pass
-      elif line[5] < target_consensus_weight:
-        pass
-      elif line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
-        pass
+#       elif line[6] != "US":
+#         pass
+#       elif line[5] < target_consensus_weight:
+#         pass
+#       elif line[0] == "jackinthebox" or line[0] == "jackinthebox2" or line[0] == "jackinthebox3":
+#         pass
       elif node == "G" and node in line[2] and "F" in line[2] and "R" in line[2] and "S" in line[2]:
         latency = ping(line[3], unit='ms')
         if latency is None:
